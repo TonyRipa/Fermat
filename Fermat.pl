@@ -1,6 +1,6 @@
 
 %	Author:		Anthony John Ripa
-%	Date:		2020.10.15
+%	Date:		2020.11.15
 %	Fermat:		A Rule System for Constraints
 
 
@@ -8,20 +8,15 @@
 
 :- redefine_system_predicate(=(_,_)) .
 
-=(X  , Y) :- var(X) , ground(Y) ,			  X <- Y   , ! .
-=(Y  , X) :- var(X) , ground(Y) ,			  X <- Y   , ! .
-=(X+C, Y) :- var(X) , ground(Y) , ground(C) , X <- Y-C , ! .
-=(Y, X+C) :- var(X) , ground(Y) , ground(C) , X <- Y-C , ! .
-=(C+X, Y) :- var(X) , ground(Y) , ground(C) , X <- Y-C , ! .
-=(Y, C+X) :- var(X) , ground(Y) , ground(C) , X <- Y-C , ! .
-=(_*X,M*X):- var(M) ,    var(X)             , X =  0       .
-=(Y*X,M*X):- var(M) ,    var(X)             , M =  Y   , ! .
-=(M*X,_*X):- var(M) ,    var(X)             , X =  0       .
-=(M*X,Y*X):- var(M) ,    var(X)             , M =  Y   , ! .
-=(X*C, Y) :- var(X) , ground(Y) , ground(C) , X <- Y/C , ! .
-=(Y, X*C) :- var(X) , ground(Y) , ground(C) , X <- Y/C , ! .
-=(C*X, Y) :- var(X) , ground(Y) , ground(C) , X <- Y/C , ! .
-=(Y, C*X) :- var(X) , ground(Y) , ground(C) , X <- Y/C , ! .
+l(X  , Y) :- var(X) , ground(Y) ,             X <- Y   , ! .
+l(X+C, Y) :- var(X) , ground(Y) , ground(C) , X <- Y-C , ! .
+l(C+X, Y) :- var(X) , ground(Y) , ground(C) , X <- Y-C , ! .
+l(X*C, Y) :- var(X) , ground(Y) , ground(C) , X <- Y/C , ! .
+l(C*X, Y) :- var(X) , ground(Y) , ground(C) , X <- Y/C , ! .
 
-=(X, Y) :- =(X,Y) , ! .
-=(X, Y) :- write(X),write(' ≟ '),write(Y) , ! .
+l(Y*X,M*X):- var(M) ,    var(X)             , (Y=M;X=0)    .
+
+=(X, Y) :- l(X,Y) .
+=(X, Y) :- l(Y,X) .
+=(X, Y) :- \+l(X,Y) , \+l(Y,X) , =(X,Y) , ! .
+=(X, Y) :- \+l(X,Y) , \+l(Y,X) , write(X),write(' ≟ '),write(Y) , ! .
