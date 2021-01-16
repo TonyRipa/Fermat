@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2020.12.15
+Date:	2021.1.15
 
 ## Fermat
 
@@ -40,6 +40,14 @@ We return to x/x. For generics we think we can safely replace x/x with 1. Constr
 For generic semantics is seemed that we x/x=1. This may have taken some convincing because constraint semantics suggested there's a hole. However, we never seemed to question x-x=0. This seemed obviously true because constraint semantics had allowed it. However, cautious constraint semantics does not allow it. This suggests that for generics x/x=1 is as safe as x-x=0. For generic semantics we did not ground the semantics in imagined substitutions but on generic quantities. For example x/x is 1 because how many x's per x are there? The answer is 1. Similarly, for x-x=0.
 
 In conclusion, x/x=1 is as true as x-x=0. Also X/X=1 is as true as X-X=0. Objections that emerge from considerations of real numbers are special cases (much like the theorems in real-analysis when compared with complex-analysis). Intuitions about what x/x should be given what X/X should be, when only thinking about reals, are unreliable domain specific intuitions that are half oversafe and half undersafe. Traditional methods have a trade-off profile that has been largely overlooked, likely because it was not fully explored. Fully understanding that trade-off can inform the practitioner as to what approach is more desirable and when. An alternate approach is splitting into 2 semantics: 1) Generic semantics where x/x=1 and x-x=0 can guarantee safety 2) Constraint semantics where neither X/X=1 nor X-X=0 can guarantee safety. If problems can be well-modularized into the different semantics, then it would appear that it may be a good choice to apply the appropriate semantics in the appropriate place, instead of trying a one-size-fits-all, especially when it becomes clear that the one-size-fits-all is not so good a fit.
+
+## 0*X=0
+
+0*X=0 is a rather special constraint. This is a rule that works for any X. Therefore Prolog responds with X=_672 (or similar). The _672 is Prolog's way of creating a new variable, and it names that variable with a random number.
+
+If we entered 0*X=0,0*Y=0 then Prolog would respond like X=_672,Y=_673 (or similar). One new variable is assigned for X, and another for Y. This is in perfect agreement with Linear Algebra where this system of 2 equations and 2 unknowns yields 2 free parameters. In Linear Algebra, we would make up new parameters like s and t, and then write the solution as X=s and Y=t.
+
+In mathematics, when we get 0/0 we say it is indeterminate. In computer science, with the IEEE-754 standard for floating point arithmetic, when we get 0/0 we would get NaN. If we check NaN==NaN we get false. IEEE-754, Prolog, and Linear Algebra are all telling us the same thing. Prolog and Linear Algebra are telling us clearly. IEEE-754 is telling us with a number with strange properties. What they are all telling us is that 0/0 creates a new variable.
 
 ## Dependencies
 
