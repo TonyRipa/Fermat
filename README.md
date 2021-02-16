@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2021.1.15
+Date:	2021.02.15
 
 ## Fermat
 
@@ -45,9 +45,15 @@ In conclusion, x/x=1 is as true as x-x=0. Also X/X=1 is as true as X-X=0. Object
 
 0*X=0 is a rather special constraint. This is a rule that works for any X. Therefore Prolog responds with X=_672 (or similar). The _672 is Prolog's way of creating a new variable, and it names that variable with a random number.
 
-If we entered 0*X=0,0*Y=0 then Prolog would respond like X=_672,Y=_673 (or similar). One new variable is assigned for X, and another for Y. This is in perfect agreement with Linear Algebra where this system of 2 equations and 2 unknowns yields 2 free parameters. In Linear Algebra, we would make up new parameters like s and t, and then write the solution as X=s and Y=t.
+If we entered 0\*X=0,0\*Y=0 then Prolog would respond like X=_672,Y=_673 (or similar). One new variable is assigned for X, and another for Y. This is in perfect agreement with Linear Algebra where this system of 2 equations and 2 unknowns yields 2 free parameters. In Linear Algebra, we would make up new parameters like s and t, and then write the solution as X=s and Y=t.
 
 In mathematics, when we get 0/0 we say it is indeterminate. In computer science, with the IEEE-754 standard for floating point arithmetic, when we get 0/0 we would get NaN. If we check NaN==NaN we get false. IEEE-754, Prolog, and Linear Algebra are all telling us the same thing. Prolog and Linear Algebra are telling us clearly. IEEE-754 is telling us with a number with strange properties. What they are all telling us is that 0/0 creates a new variable.
+
+## Constraint Satisfaction vs. Constraint Simplification
+
+One approach to the problem of constraints is constraint solving (i.e. constraint satisfaction). For constraint solving, given a constraint like X*X=-1, we get a solution set {} (i.e. the empty set) if the allowable solutions are real numbers, and we get a solution set {i,-i} if the allowable solutions are complex numbers. For other allowable solutions, we may get another solution set. Constraint solving is underconstrained without at least implicitly specifying allowable solutions. This is an issue that we wish to avoid.
+
+Another approach is constraint simplification. For constraint simplification, given a constraint like X*X=-1, we return a simplified constraint. In our case, X*X=-1 does not get simpler, so we return X*X=-1. We have completely avoided the issue of being underconstrained without specifying allowable solutions. Domain specific solvers (like real or complex solvers) may consume our simplified output constraint as their input, and provide a domain specific solution set like {} or {i,-i}. By being general (i.e. domain independent) instead of domain specific we need not concern ourselves with such domain specific idiosyncrasies. Another advantage is one of types. The input is of type constraint (like X*X=-1). The output is also of type constraint (like X*X=-1). This is clean. It is like <code>Leibniz</code> where the input is an expression and the output is an expression. <code>Leibniz</code> simplified expression simplification by not having to always plug in different values for x and checking. Similarly, we can simplify constraint simplification by not having to always plug in different values for X and checking.
 
 ## Dependencies
 
