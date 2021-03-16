@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2021.02.15
+Date:	2021.03.15
 
 ## Fermat
 
@@ -53,7 +53,7 @@ In mathematics, when we get 0/0 we say it is indeterminate. In computer science,
 
 One approach to the problem of constraints is constraint solving (i.e. constraint satisfaction). For constraint solving, given a constraint like X*X=-1, we get a solution set {} (i.e. the empty set) if the allowable solutions are real numbers, and we get a solution set {i,-i} if the allowable solutions are complex numbers. For other allowable solutions, we may get another solution set. Constraint solving is underconstrained without at least implicitly specifying allowable solutions. This is an issue that we wish to avoid.
 
-Another approach is constraint simplification. For constraint simplification, given a constraint like X*X=-1, we return a simplified constraint. In our case, X*X=-1 does not get simpler, so we return X*X=-1. We have completely avoided the issue of being underconstrained without specifying allowable solutions. Domain specific solvers (like real or complex solvers) may consume our simplified output constraint as their input, and provide a domain specific solution set like {} or {i,-i}. By being general (i.e. domain independent) instead of domain specific we need not concern ourselves with such domain specific idiosyncrasies. Another advantage is one of types. The input is of type constraint (like X*X=-1). The output is also of type constraint (like X*X=-1). This is clean. It is like <code>Leibniz</code> where the input is an expression and the output is an expression. <code>Leibniz</code> simplified expression simplification by not having to always plug in different values for x and checking. Similarly, we can simplify constraint simplification by not having to always plug in different values for X and checking.
+Another approach is constraint simplification. For constraint simplification, given a constraint like X\*X=-1, we return a simplified constraint. In our case, X*X=-1 does not get simpler, so we return X*X=-1. We have completely avoided the issue of being underconstrained without specifying allowable solutions. Domain specific solvers (like real or complex solvers) may consume our simplified output constraint as their input, and provide a domain specific solution set like {} or {i,-i}. By being general (i.e. domain independent) instead of domain specific we need not concern ourselves with such domain specific idiosyncrasies. Another advantage is one of types. The input is of type constraint (like X*X=-1). The output is also of type constraint (like X*X=-1). This is clean. It is like <code>Leibniz</code> where the input is an expression and the output is an expression. <code>Leibniz</code> simplified expression simplification by not having to always plug in different values for x and checking. Similarly, we can simplify constraint simplification by not having to always plug in different values for X and checking.
 
 ## Dependencies
 
