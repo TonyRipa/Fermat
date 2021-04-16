@@ -1,28 +1,15 @@
 
 %	Author:		Anthony John Ripa
-%	Date:		2021.03.15
+%	Date:		2021.04.15
 %	Fermat:		A Rule System for Constraints
 
 
 :- ['Leibniz'] .
 
-:- redefine_system_predicate(=(_,_)) .
+eval(X@X=Y  , _ ,  X ) :- show(('ev',X@ X =Y)) , 0/0 <- Y                          , ! .
+eval(X@C*X=Y, _ , Ans) :- show(('ev',X@C*X=Y)) ,   R <- Y/C , eval(X@X=R, _ , Ans) , ! .
+eval(X@X*C=Y, _ , Ans) :- show(('ev',X@X*C=Y)) ,   R <- Y/C , eval(X@X=R, _ , Ans) , ! .
+eval(X@Z*C=Y, _ , Ans) :- show(('ev',X@Z*C=Y)) ,   R <- Y/C , eval(X@Z=R, _ , Ans) , ! .
+eval(X@C*Z=Y, _ , Ans) :- show(('ev',X@C*Z=Y)) ,   R <- Y/C , eval(X@Z=R, _ , Ans) , ! .
 
-l(_  , Y) :-                                 0/0<- Y   , ! .
-l(X  , Y) :-          ground(Y) ,             X <- Y   , ! .
-l(X+C, Y) :- var(X) , ground(Y) , ground(C) , X <- Y-C , ! .
-l(C+X, Y) :- var(X) , ground(Y) , ground(C) , X <- Y-C , ! .
-l(Z*X, Z) :- var(X) , ground(Z) ,             0 <- Z   , ! .
-l(X*C, Y) :-          ground(Y) , ground(C) , T <- Y/C , l(X,T) , ! .
-l(C*X, Y) :- var(X) , ground(Y) , ground(C) , X <- Y/C , ! .
-
-l(M*X, Y) :- var(X) ,    \+dif(X,Y)         ,(M=1;X=0;X=1/0).
-l(X*M, Y) :- var(X) ,    \+dif(X,Y)         ,(M=1;X=0;X=1/0).
-
-l(Y*X,M*X):- var(M) ,    var(X)             ,(Y=M;X=0;X=1/0).
-
-=(X, Y) :- var(X)   , var(Y)   , =(X,Y)     , ! .
-=(X, Y) :- l(X,Y) .
-=(X, Y) :- l(Y,X) .
-=(X, Y) :- \+l(X,Y) , \+l(Y,X) , =(X,Y)     , ! .
-=(X, Y) :- \+l(X,Y) , \+l(Y,X) , format('~w ~w ~w',[X,'≟',Y]) , ! .
+eval(A@X=Y,N,E):- show(('ev',A@X=Y)) , if(is0(Y),norder(exp(X),N,R),R=exp(Y)) , replace(exp(X),R,A,B), go(B,C) , replace(X,Y,C,D) , go(D,E) , succ(('ev',E)) , ! .
