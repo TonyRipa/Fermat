@@ -1,23 +1,34 @@
 
 %	Author:		Anthony John Ripa
-%	Date:		2021.05.15
+%	Date:		2021.06.15
 %	Fermat:		A Rule System for Constraints
 
 
 :- ['Leibniz'] .
 
-simps(InputString,Output) :- atom_chars(InputString,Atoms) , map(atom_string,Atoms,Strings) , map(string_term,Strings,Terms) , simp(Terms,Output) .
-
-simp(Input,Output) :- Stack=[] , sim(Input,Stack,Output) . 
-
-sim(I,S,O) :- I=[     ]                                                               ,       =(S,O) .	%	Halt
-sim(I,S,O) :- I=[I1  |IT] , not(op(I1))                                  , S2=[I1|S]  , sim(IT,S2,O) .	%	Push Num
-sim(I,S,O) :- I=[+   |IT]               , S = [N1,N2|ST] , N3 <- N1 + N2 , S2=[N3|ST] , sim(IT,S2,O) .	%	Add
-sim(I,S,O) :- I=[+,N3|IT] , not(op(N3)) , S = [   N2|[]] , N1 <- N3 - N2 , S2=[N1]    , sim(IT,S2,O) .	%	Sub
-sim(I,S,O) :- I=[*   |IT]               , S = [N1,N2|ST] , N3 <- N1 * N2 , S2=[N3|ST] , sim(IT,S2,O) .	%	Mul
-sim(I,S,O) :- I=[*,N3|IT] , not(op(N3)) , S = [   N2|[]] , N1 <- N3 / N2 , S2=[N1]    , sim(IT,S2,O) .	%	Div
-
 op(*).
 op(+).
 
-string_term(S,T) :- term_string(T,S) .
+elem('0',0).
+elem('1',1).
+elem('+',+).
+elem('*',*).
+elem('(','(').
+elem(')',')').
+
+simps(InputString,Result) :- atom_chars(InputString,Atoms) , map(elem,Atoms,Terms) , simp(Terms,Result) .
+
+simp(Input,Result) :- OperatorStack=[] , ValueStack=[] , sim(Input,OperatorStack,ValueStack,Result) . 
+
+sim(I,O,V,R) :- I=[     ] , O=[]                                                    ,         =(V,R) .	%	Halt
+
+sim(I,O,V,R) :- I=[N1|IT] , number(N1),                  not(O=[+|_])  , V2=[N1|V]  , sim(IT,O,V2,R) .	%	Push Num
+sim(I,O,V,R) :- I=[O1|IT] , op(O1)    , not(V=[_,_|_]) , O2 = [O1|O]                , sim(IT,O2,V,R) .	%	Push Op
+
+sim(I,O,V,R) :- I=['('|IT], O2=['('|O]                                              , sim(IT,O2,V,R) .	%	Push (
+sim(I,O,V,R) :- I=[')'|IT], O=['('|O2], V=[V1|V2]      , I2=[V1|IT]                 , sim(I2,O2,V2,R).	%	Pop (
+
+sim(I,O,V,R) :- I=[+ |IT]             , V = [N1,N2|VT] , N3 <- N1 + N2 , V2=[N3|VT] , sim(IT,O,V2,R) .	%	Add
+sim(I,O,V,R) :- I=[N3|IT] , O=[+|O2]  , V = [N2|V2]    , N1 <- N3 - N2 , V3=[N1|V2] , sim(IT,O2,V3,R).	%	Sub
+sim(I,O,V,R) :- I=[* |IT]             , V = [N1,N2|VT] , N3 <- N1 * N2 , V2=[N3|VT] , sim(IT,O,V2,R) .	%	Mul
+sim(I,O,V,R) :- I=[N3|IT] , O=[*|O2]  , V = [N2|V2]    , N1 <- N3 / N2 , V3=[N1|V2] , sim(IT,O2,V3,R).	%	Div
