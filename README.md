@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2021.07.15
+Date:	2021.08.15
 
 ## Fermat
 
@@ -69,7 +69,7 @@ Earlier we noted that x+h|h is just like the function h ↦ x+h.  We noted that 
 
 There are multiple ways to handle this complexity.  One way is the way that is natural to Prolog which is that a predicate is not guaranteed to return exactly once.  It may return 0 times.  It may return 2 or more times.  This solution has a certain naturalness , especially in the context of being natively supported by the language that the software is written in.  Another solution is to always return an aggregate like a set, or a list.  One advantage is that you have the answers all neatly up in one package.  One problem is that now you have to work with a new data-type.  Another problem may be that the set is infinite but not exhaustive (like even numbers).  A third solution is that these are already in simplest form.  The square root of 9 is already in simplest form.  This may bother people who don't know the answer is 3 or -3.  We could help them out and simplify m|m\*m=9 to m|m\*m-9=0 to m|(m-3)\*(m+3)=0 and return that.  This way we return exactly once, the data-type didn't change, and the answers are less implicit and more explicit.
 
-There is still the issue that the number of solutions depends on your assumptions about possible solutions.  x*x=1 has one solution in whole numbers and two solutions in integers.  x*x=-1 has two solutions in complex, and none in integer.  When we don't know how many times to return, this seems to clearly rule out returning more than once, or returning a set.  Returning an expression still seems possible.  The expression m|m*m=9 can simplify to m|(m-3)*(m+3)=0.  When using whole numbers there is one solution, and with integers two.  Though by writing m|(m-3)*(m+3)=0 we seem to imply that there are two.  Consider x|x*x=-9.  We could simplify to x|(x-3i)*(x+3i)=0 .  Though this seems to force the user to use complex numbers.  We could return x|(x-3(a|a*a=-1))*(x+3(a|a*a=-1))=0 .  That is correct for reals and complex.  Though it looks bizarre for people not using complex.  Furthermore, x|x^9-x=0 may necessitate quaternions (or worse yet no quaternions but expressions that would generate them [like the formula with no i but instead a|a*a=-1]).  This seems to be getting out of hand.  This example x|x*x=0 may require nilpotent numbers (or replace all nilpotent numbers with the expression that generates them).  One extreme would be just return x|x^9-x=0.  Another would be the most general (something without quaternion but with sub-expressions that generate them).  Another would be go for a mathematical habit like real or complex.  Mathematical habits lead to unwarranted assumptions.  The most general is another solution.  The lazy solution x|x^9-x=0 seems best.
+There is still the issue that the number of solutions depends on your assumptions about possible solutions.  x\*x=1 has one solution in whole numbers and two solutions in integers.  x\*x=-1 has two solutions in complex, and none in integer.  When we don't know how many times to return, this seems to clearly rule out returning more than once, or returning a set.  Returning an expression still seems possible.  The expression m|m\*m=9 can simplify to m|(m-3)\*(m+3)=0.  When using whole numbers there is one solution, and with integers two.  Though by writing m|(m-3)\*(m+3)=0 we seem to imply that there are two.  Consider x|x\*x=-9.  We could simplify to x|(x-3i)\*(x+3i)=0 .  Though this seems to force the user to use complex numbers.  We could return x|(x-3(a|a\*a=-1))\*(x+3(a|a\*a=-1))=0 .  That is correct for reals and complex.  Though it looks bizarre for people not using complex.  Furthermore, x|x^9-x=0 may necessitate quaternions (or worse yet no quaternions but expressions that would generate them [like the formula with no i but instead a|a\*a=-1]).  This seems to be getting out of hand.  This example x|x\*x=0 may require nilpotent numbers (or replace all nilpotent numbers with the expression that generates them).  One extreme would be just return x|x^9-x=0.  Another would be the most general (something without quaternion but with sub-expressions that generate them).  Another would be go for a mathematical habit like real or complex.  Mathematical habits lead to unwarranted assumptions.  The most general is another solution.  The lazy solution x|x^9-x=0 seems best.
 
 Furthermore, as was previously discussed, by focusing on Constraint Simplification instead of Constraint Satisfaction, we allow for a pipeline wherein the Generic Constraint Simplifier can act as a pre-processor whose results can be passed to some Domain-Specific (Integer, Real, Complex, etc.) Constraint Satisfier.
 
@@ -96,6 +96,14 @@ In conclusion, using = starts us on an awkward path where we are led to explicit
 #### (
 
 Normal postfix notation parses to a unique parse tree, without parentheses. The extended notation may be ambiguous. Consider 1+0+1. Associating left to right yields <s>1</s>+1 yields 2. Associating right to left yields 1+1 yields 0. Since we want the user to be able to express both trees, we will not solve the problem merely by imposing an order of operations. Additionally, we will allow for parentheses. So, (1+0)+1 yields <s>1</s>+1 yields 2. And, 1+(0+1) yields 1+1 yields 0. If the user does not specify then 1+0+1 will be left to right associative by default, yielding <s>1</s>+1 yields 2.
+
+#### ↦
+
+The ↦ operator is often used to express functions. For example, x↦x means x mapsto x. So, x↦x is the identity function. For another example, x↦1 means x mapsto 1. So, x↦1 is a function that returns 1 no matter what the input is. We would like to introduce the ↦ operator into our language, and proceed in direct analogy with the above avoidance of both the = and the doubling of every operator.
+
+We convert the sentence 'f maps x to y' to the symbols fx↦y . If we leave off the y, then we have fx↦ . We can read this as f x mapsto . Instead if we leave off the f, then we have x↦y. We can read this as x mapsto y . When ↦ is in the middle, it is the function abstraction operator. When ↦ is at the end, it is the function application operator. 
+
+With this syntax established we can try an example: x↦(xx+)y↦ . This is (x mapsto sum of x & x) appliedto y . Substituting y into that function, we get sum of y & y. So, x↦(xx+)y↦ simplifies to yy+ .
 
 ## Dependencies
 
