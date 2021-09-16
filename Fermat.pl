@@ -1,6 +1,6 @@
 
 %	Author:		Anthony John Ripa
-%	Date:		2021.08.15
+%	Date:		2021.09.15
 %	Fermat:		A Rule System for Constraints
 
 
@@ -8,8 +8,10 @@
 
 elem('0',0).
 elem('1',1).
+elem('2',2).
 elem('+',+).
 elem('*',*).
+elem('^',^).
 elem('↦',↦).
 elem('(','(').
 elem(')',')').
@@ -21,6 +23,7 @@ simp(Input,Result) :- Stack=[] , sim(Input,Stack,Result) .
 
 op(*).
 op(+).
+op(^).
 op(↦).
 
 arg(X) :- number(X)  , ! .
@@ -41,5 +44,6 @@ sim(I,S,R) :- I=[+ |IT] , S = [N1,N2|ST] , args(N1,N2) , N3 <- N2 + N1 , S2=[N3|
 sim(I,S,R) :- I=[N3|IT] , S = [ +,N2|ST] , args(N3,N2) , N1 <- N3 - N2 , S2=[N1|ST] , sim(IT,S2,R) .	%	Sub
 sim(I,S,R) :- I=[* |IT] , S = [N1,N2|ST] , args(N1,N2) , N3 <- N2 * N1 , S2=[N3|ST] , sim(IT,S2,R) .	%	Mul
 sim(I,S,R) :- I=[N3|IT] , S = [ *,N2|ST] , args(N3,N2) , N1 <- N3 / N2 , S2=[N1|ST] , sim(IT,S2,R) .	%	Div
+sim(I,S,R) :- I=[^ |IT] , S = [ 2,N1|ST] , args( 2,N1) , N3 <- N1 * N1 , S2=[N3|ST] , sim(IT,S2,R) .	%	Sqr
 sim(I,S,R) :- I=[↦ |IT] , S = [N1,N2|ST] , args(N1,N2) , N3 <- N2 = N1 , S2=[N3|ST] , sim(IT,S2,R) .	%	Eva
 sim(I,S,R) :- I=[N3|IT] , S = [ ↦,N2|ST] , args(N3,N2) , N1 <- N3 @ N2 , S2=[N1|ST] , sim(IT,S2,R) .	%	Fun
