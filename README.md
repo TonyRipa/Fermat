@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2021.11.15
+Date:	2021.12.15
 
 ## Fermat
 
@@ -112,6 +112,8 @@ The ^ operator is often used to express exponentiation. For example, the equatio
 We convert the sentence '2\^3=8' to the symbols 23\^8 . If we leave off the 8, then we have 23^ . We can read this as 2's 3rd power . Instead if we leave off the 2, then we have 3\^8. We can read this as 3rd root 8 (Ideally since position determines meaning, we'd still say power not root) . When ^ is in the middle, it is the nth root operator. When ^ is at the end, it is the exponentiation operator. 
 
 With this syntax established we can try an example: 3\^(23^) . This is 3rd root (2's 3rd power) . Simplifying inside parentheses first, we get 8. So, 3\^(23^) simplifies to 3\^8. Then 3\^8 simplifies to 2. So, in total, 3\^(23^) simplifies to 2.
+
+We had previously expressed addition as 12+ , which had an answer of 3. Addition has a unique inverse which is subtraction. We expressed subtraction as 2+3 , which had an answer of 1. Similarly 1+3 has an answer of 2. Solving for the first or second number (though conceptually different) can be expressed in the same way. This relates to the fact that addition is commutative : 12+ equals 21+ . We also saw that multiplication had a unique inverse called division. Unfortunately, exponentiation is not commutative : 23^ isn't 32^ . We should expect exponentiation to have two inverses. We wrote one inverse as 3\^8 which simplified to 2. We noted that this inverse is called a root. What if in 23\^8 we want to leave out the unknown 3? If we write 2\^8 then according to our previous syntax this would not yield 3, but instead yield the 2nd root of 8. The is a problem. When we removed the 3 from 23\^8 we slid the 2 to the right yielding 2\^8. This change in position changed the meaning. Instead we should remove the 3 from 23\^8 without changing the position, yielding 2 ^8 . In quotes, the expression is "2 ^8" . When not using quotes, the expression looks confusing (like two separate expressions) , but it is one expression that happens to include a space : 2 ^8 . With this notation 2 ^8 simplifies to 3. This is now the other inverse of exponentiation, which is usually referred to as a logarithm. People typically say the log base 2 of 8 is 3. Instead of 3 different functions (power, root, and log) we use one function/operator ^ and distinguish meaning by position of the operands. On the space notation, if 2 ^8 is too much to bear, we may replace the space with an _ , yielding 2_\^8 . Now an expression looks like a single chunk, instead of two separate things.
 
 ## Dependencies
 
