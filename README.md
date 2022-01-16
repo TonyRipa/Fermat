@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2021.12.15
+Date:	2022.01.15
 
 ## Fermat
 
@@ -19,7 +19,7 @@ So, there are 2 competing semantics. The traditional constraint semantics x/x = 
 
 In retrospect, it is simple. For example, i * i = 1 seems to be unintelligible. However, mathematicians may write it as i * <i>i</i> = 1 .  Now it is more clear: <i>i</i> represents the square-root of -1. Whereas, i is something that we can solve for. The solution is i = -<i>i</i> .
 
-We simply have to be clear about the difference (and notate the difference) between the base language (complex, generic, ...) and the meta-language (constraint language with symbols for unknowns).
+We simply have to be clear about the difference (and notate the difference) between the base language (complex, generic, …) and the meta-language (constraint language with symbols for unknowns).
 
 Alternatively, we may think of it as a hierarchy. Numbers are at the base of this hierarchy. Then a level up we have abstractions over numbers, which we wrote as lowercase x, and we called generics. Then a level up we have abstractions over generics, which we wrote as uppercase X.
 
