@@ -1,9 +1,9 @@
 
-# Fermat: A Rule System for Constraints
+# Fermat: A Rewriting System for Constraints
 
 Author:	Anthony John Ripa
 
-Date:	2022.01.15
+Date:	2022.02.15
 
 ## Fermat
 
