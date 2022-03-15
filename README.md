@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2022.02.15
+Date:	2022.03.15
 
 ## Fermat
 
@@ -47,7 +47,7 @@ In conclusion, x/x=1 is as true as x-x=0. Also X/X=1 is as true as X-X=0. Object
 
 If we entered 0\*X=0,0\*Y=0 then Prolog would respond like X=\_672,Y=\_673 (or similar). One new variable is assigned for X, and another for Y. This is in perfect agreement with Linear Algebra where this system of 2 equations and 2 unknowns yields 2 free parameters. In Linear Algebra, we would make up new parameters like s and t, and then write the solution as X=s and Y=t.
 
-In mathematics, when we get 0/0 we say it is indeterminate. In computer science, with the IEEE-754 standard for floating point arithmetic, when we get 0/0 we would get NaN. If we check NaN==NaN we get false. IEEE-754, Prolog, and Linear Algebra are all telling us the same thing. Prolog and Linear Algebra are telling us clearly. IEEE-754 is telling us with a number with strange properties. What they are all telling us is that 0/0 creates a new variable.
+In mathematics, when we get 0/0 we say it is indeterminate. In computer science, with the IEEE-754 standard for floating point arithmetic, when we get 0/0 we would get NaN. If we check NaN==NaN we get false. IEEE-754, Prolog, and Linear Algebra are all telling us the same thing. Prolog and Linear Algebra are telling us clearly. IEEE-754 is telling us with a number that has strange properties. What they are all telling us is that 0/0 creates a new variable.
 
 ## Constraint Satisfaction vs. Constraint Simplification
 

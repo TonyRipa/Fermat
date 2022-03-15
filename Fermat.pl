@@ -1,6 +1,6 @@
 
 %	Author:		Anthony John Ripa
-%	Date:		2022.02.15
+%	Date:		2022.03.15
 %	Fermat:		A Rule System for Constraints
 
 
@@ -50,7 +50,6 @@ sim(I,S,R) :- I=[+ |IT] , S = [N2,N1|ST] , args(N1,N2) , N3 <- N1 + N2 , S2=[N3|
 sim(I,S,R) :- I=[N3|IT] , S = [ +,N2|ST] , args(N3,N2) , N1 <- N3 - N2 , S2=[N1|ST] , sim(IT,S2,R) .	%	Sub
 sim(I,S,R) :- I=[* |IT] , S = [N2,N1|ST] , args(N1,N2) , N3 <- N1 * N2 , S2=[N3|ST] , sim(IT,S2,R) .	%	Mul
 sim(I,S,R) :- I=[N3|IT] , S = [ *,N2|ST] , args(N3,N2) , N1 <- N3 / N2 , S2=[N1|ST] , sim(IT,S2,R) .	%	Div
-sim(I,S,R) :- I=[^ |IT] , S = [N2,N1|ST] , nums(N2,N1) , pow(N1,N2,N3) , S2=[N3|ST] , sim(IT,S2,R),!.	%	Pow
 sim(I,S,R) :- I=[^ |IT] , S = [N2,N1|ST] , args(N2,N1) , N3 <- N1 ^ N2 , S2=[N3|ST] , sim(IT,S2,R) .	%	Pow
 sim(I,S,R) :- I=[N3|IT] , S = [ ^,N2|ST] , nums(N3,N2) , nth(N2,N3,N1) , S2=[N1|ST] , sim(IT,S2,R) .	%	Rot
 sim(I,S,R) :- I=[N3|IT] , S=[^,' ',N2|ST], nums(N3,N2) ,  lg(N2,N3,N1) , S2=[N1|ST] , sim(IT,S2,R) .	%	Log
