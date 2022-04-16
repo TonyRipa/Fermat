@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2022.03.15
+Date:	2022.04.15
 
 ## Fermat
 
@@ -114,6 +114,22 @@ We convert the sentence '2\^3=8' to the symbols 23\^8 . If we leave off the 8, t
 With this syntax established we can try an example: 3\^(23^) . This is 3rd root (2's 3rd power) . Simplifying inside parentheses first, we get 8. So, 3\^(23^) simplifies to 3\^8. Then 3\^8 simplifies to 2. So, in total, 3\^(23^) simplifies to 2.
 
 We had previously expressed addition as 12+ , which had an answer of 3. Addition has a unique inverse which is subtraction. We expressed subtraction as 2+3 , which had an answer of 1. Similarly 1+3 has an answer of 2. Solving for the first or second number (though conceptually different) can be expressed in the same way. This relates to the fact that addition is commutative : 12+ equals 21+ . We also saw that multiplication had a unique inverse called division. Unfortunately, exponentiation is not commutative : 23^ isn't 32^ . We should expect exponentiation to have two inverses. We wrote one inverse as 3\^8 which simplified to 2. We noted that this inverse is called a root. What if in 23\^8 we want to leave out the unknown 3? If we write 2\^8 then according to our previous syntax this would not yield 3, but instead yield the 2nd root of 8. The is a problem. When we removed the 3 from 23\^8 we slid the 2 to the right yielding 2\^8. This change in position changed the meaning. Instead we should remove the 3 from 23\^8 without changing the position, yielding 2 ^8 . In quotes, the expression is "2 ^8" . When not using quotes, the expression looks confusing (like two separate expressions) , but it is one expression that happens to include a space : 2 ^8 . With this notation 2 ^8 simplifies to 3. This is now the other inverse of exponentiation, which is usually referred to as a logarithm. People typically say the log base 2 of 8 is 3. Instead of 3 different functions (power, root, and log) we use one function/operator ^ and distinguish meaning by position of the operands. On the space notation, if 2 ^8 is too much to bear, we may replace the space with an _ , yielding 2_\^8 . Now an expression looks like a single chunk, instead of two separate things.
+
+### Analogy
+
+Another relation formulation is in terms of analogies. Consider: hot is to cold as bad is to good. This is an analogy of opposites. We can write:
+
+<table border><tr><td>Hot</td><td>Cold</td></tr><tr><td>Bad</td><td>Good</td></tr></table>
+
+We see the table is redundant. We can imagine leaving one of those squares blank. If we have made the analogy correctly then how to fill in the blank is a forced choice. We can do similar things with math:
+
+<table border><tr><td>x</td><td>2*x</td></tr><tr><td>y</td><td>2*y</td></tr></table>
+
+Again we see the table is redundant. We can imagine leaving one of those squares blank. If we have made the analogy correctly then how to fill in the blank is a forced choice.
+
+With this approach we can abandon the equal sign (=), and half the operators (at least).
+
+For notational convenience, instead of always being required to write a 2x2 matrix, we can use a 1x4 vector. We can call this relation r. In this notation, the previous example can be written r( x , 2\*x , y , 2\*y ).
 
 ## Dependencies
 
