@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2022.04.15
+Date:	2022.05.15
 
 ## Fermat
 
@@ -130,6 +130,11 @@ Again we see the table is redundant. We can imagine leaving one of those squares
 With this approach we can abandon the equal sign (=), and half the operators (at least).
 
 For notational convenience, instead of always being required to write a 2x2 matrix, we can use a 1x4 vector. We can call this relation r. In this notation, the previous example can be written r( x , 2\*x , y , 2\*y ).
+
+#### Functions
+
+With analogies we have a relation between 4 things . For example, we earlier saw r( x , 2\*x , y , 2\*y ) . Instead of clustering into 4 parts, it can cluster into 3 parts : r( (x , 2\*x) , y , 2\*y ) . The first part is (x , 2\*x). The second part is y. The third part is 2\*y. The last 2 parts are the same as before. What type of thing is the first part (x , 2\*x) ? Intuitively, it seems to be a pair . A mathematician may call it a tuple . Can we avoid new types of things ? Well, r( x , 2\*x , y , 2\*y ) was a relation, which seems to be a name (in this case r) followed by comma separated entries enclosed in parentheses. We may consider (x , 2\*x) to be this same type of object (in which case it would also probably be called a relation) except that it does not seem to start with a name . We may relax the constraint that all relations start with names. We may have unnamed relations. In this case, (x , 2\*x) would be a relation. Since it is unnamed, it would be an unnamed relation. This seems less a new type and more a clarification of types. Though we need not name (x , 2\*x) if we were to name it what would we name it ? By exploring how it is used perhaps we can see. We can explore the 4 part relation first. r(x, 2\*x, 4, 8) . This says x is to 2\*x as 5 is to 10 . If we group it with parentheses then (x is to 2\*x) as 5 is to 10 . This (x is to 2\*x) seems just like a function, with 5 being the argument, and 10 being the result. If this is right then a natural name would be function. We could write the unnamed (x , 2\*x) as the named function(x , 2\*x). As part of the larger r we could write r( function(x , 2\*x) , y , 2\*y ) . If we don't like the word function, we can procede like lambda calculus and use the name λ . We can write λ(x , 2\*x) . As part of the larger r we could write r( λ(x , 2\*x) , y , 2\*y ) .
+If we name it, and what we name it, are less important then understanding the nature of (x , 2\*x) . (x , 2\*x) appears to behave just like a function, just like a lambda function from lambda calculus. By reorganizing the parts of the whole r( x , 2\*x , y , 2\*y ) , we can think of a part of r( x , 2\*x , y , 2\*y ) as a function . We don't have to reorganize r( x , 2\*x , y , 2\*y ) into different parts . However, if we do reorganize r( x , 2\*x , y , 2\*y ) into different parts, then grouping the first 2 parts together seems to naturally make a thing that behaves in every way like a lambda function.
 
 ## Dependencies
 
