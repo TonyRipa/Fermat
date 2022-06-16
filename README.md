@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2022.05.15
+Date:	2022.06.15
 
 ## Fermat
 
@@ -133,8 +133,29 @@ For notational convenience, instead of always being required to write a 2x2 matr
 
 #### Functions
 
+<table border>
+	<tr><td colspan=2><table border><tr><td>&nbsp;x&nbsp;</td><td>&nbsp;2*x&nbsp;</td></tr></table></td></tr>
+	<tr><td>&nbsp;y&nbsp;</td><td>&nbsp;2*y&nbsp;</td></tr>
+</table>
+
 With analogies we have a relation between 4 things . For example, we earlier saw r( x , 2\*x , y , 2\*y ) . Instead of clustering into 4 parts, it can cluster into 3 parts : r( (x , 2\*x) , y , 2\*y ) . The first part is (x , 2\*x). The second part is y. The third part is 2\*y. The last 2 parts are the same as before. What type of thing is the first part (x , 2\*x) ? Intuitively, it seems to be a pair . A mathematician may call it a tuple . Can we avoid new types of things ? Well, r( x , 2\*x , y , 2\*y ) was a relation, which seems to be a name (in this case r) followed by comma separated entries enclosed in parentheses. We may consider (x , 2\*x) to be this same type of object (in which case it would also probably be called a relation) except that it does not seem to start with a name . We may relax the constraint that all relations start with names. We may have unnamed relations. In this case, (x , 2\*x) would be a relation. Since it is unnamed, it would be an unnamed relation. This seems less a new type and more a clarification of types. Though we need not name (x , 2\*x) if we were to name it what would we name it ? By exploring how it is used perhaps we can see. We can explore the 4 part relation first. r(x, 2\*x, 4, 8) . This says x is to 2\*x as 5 is to 10 . If we group it with parentheses then (x is to 2\*x) as 5 is to 10 . This (x is to 2\*x) seems just like a function, with 5 being the argument, and 10 being the result. If this is right then a natural name would be function. We could write the unnamed (x , 2\*x) as the named function(x , 2\*x). As part of the larger r we could write r( function(x , 2\*x) , y , 2\*y ) . If we don't like the word function, we can procede like lambda calculus and use the name λ . We can write λ(x , 2\*x) . As part of the larger r we could write r( λ(x , 2\*x) , y , 2\*y ) .
+
 If we name it, and what we name it, are less important then understanding the nature of (x , 2\*x) . (x , 2\*x) appears to behave just like a function, just like a lambda function from lambda calculus. By reorganizing the parts of the whole r( x , 2\*x , y , 2\*y ) , we can think of a part of r( x , 2\*x , y , 2\*y ) as a function . We don't have to reorganize r( x , 2\*x , y , 2\*y ) into different parts . However, if we do reorganize r( x , 2\*x , y , 2\*y ) into different parts, then grouping the first 2 parts together seems to naturally make a thing that behaves in every way like a lambda function.
+
+#### Rewrites
+
+<table border>
+	<tr><td rowspan=2><table border><tr><td>&nbsp;x&nbsp;</td></tr><tr><td>&nbsp;y&nbsp;</td></tr></table></td><td>2*x</td></tr>
+	<tr><td>&nbsp;2*y&nbsp;</td></tr>
+</table>
+
+We previously saw that if we group the first row (x , 2\*x) we get the concept of function. What if we group the first column (x , y) ? Proceeding similarly to before, we get a relation between 3 parts : (x , y) , 2\*x , and 2\*y . We can write the relation as r ( (x , y) , 2\*x , 2\*y ) . How can we think of this relation? With analogies the 2\*y was a forced choice from the x , y , and 2\*x. With functions, the 2\*y is still a forced choice; we merely package the (x , 2\*x) and refer to that chunk with the name function. The name function was appropriate because that chunk acts just like functions from lambda calculus. Now we have the same x , y , 2\*x , and 2\*y but partitioned differently so it looks like (x , y) , 2\*x , and 2\*y . Just as before the 2\*y is a forced choice from the x , y , 2\*x . So, the 2\*y is a forced choice from the (x , y) , 2\*x . In the same way that in lambda calculus (x , 2\*x) , y will yield a forced choice of 2\*y , is there some other previously existing convention in which (x , y) , 2\*x will yield a forced choice of 2\*y ? As it turns out, the fields of rewriting, term-rewriting, string-rewriting, and abstract-rewriting already have this convention . The (x , y) would be called the rewrite-rule . The 2\*x would be called the term. The 2\*y is the result of applying the rewrite-rule (x , y) to the term 2\*x . The rewrite-rule (x , y) can be thought of as saying replace every x with a y.
+
+If we name it, and what we name it, are less important then understanding the nature of (x , y) . (x , y) appears to behave just like a rewrite-rule from abstract rewriting. By reorganizing the parts of the whole r( x , 2\*x , y , 2\*y ) , we can think of a part of r( x , 2\*x , y , 2\*y ) as a rewrite-rule . We don't have to reorganize r( x , 2\*x , y , 2\*y ) into different parts . However, if we do reorganize r( x , 2\*x , y , 2\*y ) into different parts, then grouping the x and y parts together seems to naturally make a thing that behaves in every way like a rewrite-rule.
+
+By focusing on the structure rather than the naming, we can see that this structure occurs in multiple places. In programming there are variables. These variable have a scope, this is like environment variables, or a context. For example, we may write x=3. The fact that x=3 is then stored in the scope. If in that context the value of 2\*x is called for, as in for example print(2\*x), then the 2\*x will be combined with the scope x=3, yielding 2\*3 then 6. In languages like these, where the scope works behind the scenes, it may be difficult to notice that scopes and rewrites share a common structure. In some functional languages, where the scope can be manipulated directly, we may write scope={x:3} and eval(2\*x,scope), or we may write even more succinctly eval(2\*x,{x:3}) .
+
+Again the point is not what we name these objects, but that they share a common structure, and that simple structures have only a few possible arrangements. One arrangement is no grouping. One arrangement is grouping the first row. One arrangement is grouping the first column.
 
 ## Dependencies
 
