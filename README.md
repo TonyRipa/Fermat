@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2022.06.15
+Date:	2022.07.15
 
 ## Fermat
 
@@ -156,6 +156,27 @@ If we name it, and what we name it, are less important then understanding the na
 By focusing on the structure rather than the naming, we can see that this structure occurs in multiple places. In programming there are variables. These variable have a scope, this is like environment variables, or a context. For example, we may write x=3. The fact that x=3 is then stored in the scope. If in that context the value of 2\*x is called for, as in for example print(2\*x), then the 2\*x will be combined with the scope x=3, yielding 2\*3 then 6. In languages like these, where the scope works behind the scenes, it may be difficult to notice that scopes and rewrites share a common structure. In some functional languages, where the scope can be manipulated directly, we may write scope={x:3} and eval(2\*x,scope), or we may write even more succinctly eval(2\*x,{x:3}) .
 
 Again the point is not what we name these objects, but that they share a common structure, and that simple structures have only a few possible arrangements. One arrangement is no grouping. One arrangement is grouping the first row. One arrangement is grouping the first column.
+
+#### Expressions
+
+<table border><tr><td>x</td><td>x*x</td></tr><tr><td> </td><td>-1</td></tr></table>
+
+What do we do when there is no way to fill in the table? x is to x\*x as what is to -1? The traditional answer has been to create a new entity which is the answer. In this case, the traditional answer has been the imaginary number i.
+
+<table border><tr><td>x</td><td>x*x</td></tr><tr><td>i</td><td>-1</td></tr></table>
+
+One the one hand, it is good that we have an answer. On the other hand, all we did is give a name to the unknown original expression. We could have equally well returned the unknown original expression. This is what was done with division. 3 doesn't divide 2 evenly. So, 2/3 is just 2/3. The question is the answer. The answer to an irreducible expression is just the irreducible expression. One way we could express this is to fill in that blank with the original like this:
+
+<table border>
+	<tr><td>x</td><td>x*x</td></tr>
+	<tr><td><table border><tr><td>x</td><td>x*x</td></tr><tr><td> </td><td>-1</td></tr></table></td><td>-1</td></tr>
+</table>
+
+This is like 2/3 = 2/3. It is a bit like a fractal because it invites repetition. Alternatively, it is just 2/3. We just write:
+
+<table border><tr><td>x</td><td>x*x</td></tr><tr><td> </td><td>-1</td></tr></table>
+
+In conclusion, much of this entire work has been about avoiding unnecessary new syntax. We can do the same thing again here, by returning irreducible expressions, as the answer to any posed question.
 
 ## Dependencies
 
