@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2022.08.15
+Date:	2022.09.15
 
 ## Fermat
 
@@ -176,7 +176,7 @@ This is like 2/3 = 2/3. It is a bit like a fractal because it invites repetition
 
 <table border><tr><td>x</td><td>x*x</td></tr><tr><td> </td><td>-1</td></tr></table>
 
-As something of an aside, in one of our other notations, this would be notated as the irreducible expression x@x\*x=-1 .
+As something of an aside, in one of our other notations, this would be notated as the irreducible expression x@x\*x=-1 . Alternatively, we could use the previous r notation like r( x , x\*x ,  , -1 ) .
 
 In conclusion, much of this entire work has been about avoiding unnecessary new syntax. We can do the same thing again here, by returning irreducible expressions, as the answer to any posed question.
 
