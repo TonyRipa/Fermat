@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2022.09.15
+Date:	2022.10.15
 
 ## Fermat
 
@@ -51,9 +51,13 @@ In mathematics, when we get 0/0 we say it is indeterminate. In computer science,
 
 ## Constraint Satisfaction vs. Constraint Simplification
 
-One approach to the problem of constraints is constraint solving (i.e. constraint satisfaction). For constraint solving, given a constraint like X\*X=-1, we get a solution set {} (i.e. the empty set) if the allowable solutions are real numbers, and we get a solution set {i,-i} if the allowable solutions are complex numbers. For other allowable solutions, we may get another solution set. Constraint solving is underconstrained without at least implicitly specifying allowable solutions. This is an issue that we wish to avoid.
+One approach to the problem of constraints is constraint solving (i.e. constraint satisfaction). For constraint solving, given a constraint like X\*X=-1, we get a solution set {} (i.e. the empty set) if the allowable solutions are real numbers. However, we get a solution set {i,-i} if the allowable solutions are complex numbers. For other allowable solutions, we may get another solution set. Constraint solving is underconstrained without at least implicitly specifying allowable solutions. This is an issue that we wish to avoid.
 
 Another approach is constraint simplification. For constraint simplification, given a constraint like X\*X=-1, we return a simplified constraint. In our case, X\*X=-1 does not get simpler, so we return X\*X=-1. We have completely avoided the issue of being underconstrained without specifying allowable solutions. Domain specific solvers (like real or complex solvers) may consume our simplified output constraint as their input, and provide a domain specific solution set like {} or {i,-i}. By being general (i.e. domain independent) instead of domain specific we need not concern ourselves with such domain specific idiosyncrasies. Another advantage is one of types. The input is of type constraint (like X\*X=-1). The output is also of type constraint (like X\*X=-1). This is clean. It is like <code>Leibniz</code> where the input is an expression and the output is an expression. <code>Leibniz</code> simplified expression simplification by not having to always plug in different values for x and checking. Similarly, we can simplify constraint simplification by not having to always plug in different values for X and checking.
+
+### Constraint Simplification
+
+The approach was to break into 2 steps: first a domain independent constraint simplifier, second a domain specific constraint solver. However, constraint simplification may be domain dependent. Consider the constraint 1 = a \* X + b \* X . Naively, we may try the simplification 1 = (a + b) \* X . However, this assumes that the operation \* distributes over + , which will hold in some domains and not in others. Similar arguments will hold for commutativity (whether or not a \* b = b \* a). It seems that constraint simplification is domain dependent. Some simplification rules will be valid in some contexts and not in others. It seems we have at least 2 different ways of specifying this context for the constraint simplification step. The first approach is to specify what the possible values the variables can take, and the valid constraint simplifications will then follow. The second approach is that we merely specify what simplification rules are valid. Note the second approach is really the second half of the first approach. This is because if we specify the allowable values of the variables, then we conclude the allowable rules.
 
 ## Relations
 
