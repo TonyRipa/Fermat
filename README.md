@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2022.10.15
+Date:	2022.11.15
 
 ## Fermat
 
@@ -58,6 +58,10 @@ Another approach is constraint simplification. For constraint simplification, gi
 ### Constraint Simplification
 
 The approach was to break into 2 steps: first a domain independent constraint simplifier, second a domain specific constraint solver. However, constraint simplification may be domain dependent. Consider the constraint 1 = a \* X + b \* X . Naively, we may try the simplification 1 = (a + b) \* X . However, this assumes that the operation \* distributes over + , which will hold in some domains and not in others. Similar arguments will hold for commutativity (whether or not a \* b = b \* a). It seems that constraint simplification is domain dependent. Some simplification rules will be valid in some contexts and not in others. It seems we have at least 2 different ways of specifying this context for the constraint simplification step. The first approach is to specify what the possible values the variables can take, and the valid constraint simplifications will then follow. The second approach is that we merely specify what simplification rules are valid. Note the second approach is really the second half of the first approach. This is because if we specify the allowable values of the variables, then we conclude the allowable rules.
+
+### Constraint Satisfation
+
+We will consider Constraint Satisfaction with domain dependency. What if we are in the integer domain and the user specifies X \* 0 = 0 ? The answer seems to be X ∈ ℤ . Prolog's library(clpfd) notates this as "X in inf..sup" (where inf means infimum and sup means supremum) . So, instead of returning X=\_672 indicating X is a fresh Prolog variable (which could be any possible thing), we can instead return X in inf..sup (notating that X is an Integer).
 
 ## Relations
 
