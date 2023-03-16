@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2023.02.15
+Date:	2023.03.15
 
 ## Fermat
 
@@ -61,7 +61,7 @@ The approach was to break into 2 steps: first a domain independent constraint si
 
 ### Constraint Satisfation
 
-We will consider Constraint Satisfaction with domain dependency. What if we are in the integer domain and the user specifies X \* 0 = 0 ? The answer seems to be X ∈ ℤ . Prolog's library(clpfd) notates this as "X in inf..sup" (where inf means infimum and sup means supremum) . So, instead of returning X=\_672 indicating X is a fresh Prolog variable (which could be any possible thing), we can instead return X in inf..sup, or X is integer (notating that X is an Integer). Furthermore if both X=7 and X in inf..sup are true, then it should return X=7. Also integer(X) can return X in inf..sup.
+We will consider Constraint Satisfaction with domain dependency. What if we are in the integer domain and the user specifies X \* 0 = 0 ? The answer seems to be X ∈ ℤ . Prolog's library(clpfd) notates this as "X in inf..sup" (where inf means infimum and sup means supremum) . So, instead of returning X=\_672 indicating X is a fresh Prolog variable (which could be any possible thing), we can instead return X in inf..sup, or X is integer (notating that X is an Integer). Furthermore if both X=7 and X in inf..sup are true, then it should return X=7. Also integer(X) can return X in inf..sup. We want X\*2=1 to return X=0.5 , while integer(X),X\*2=1 should return false.
 
 ## Relations
 
