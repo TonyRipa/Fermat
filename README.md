@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2023.03.15
+Date:	2023.04.15
 
 ## Fermat
 
@@ -22,6 +22,10 @@ In retrospect, it is simple. For example, i * i = 1 seems to be unintelligible. 
 We simply have to be clear about the difference (and notate the difference) between the base language (complex, generic, …) and the meta-language (constraint language with symbols for unknowns).
 
 Alternatively, we may think of it as a hierarchy. Numbers are at the base of this hierarchy. Then a level up we have abstractions over numbers, which we wrote as lowercase x, and we called generics. Then a level up we have abstractions over generics, which we wrote as uppercase X.
+
+## Language Choice
+
+Prolog is a natural first choice, as it already distinguishes between variables like X and atoms x, by using upper-case and lower-case respectively. Some drawbacks include the fact that getting X to print as X consistently is difficult as the run-time controls variables. Furthermore, constraint programming requires programming hooks, with difficulty on the order of reflective programming. The strong native support for some convenient features comes at the price of higher cost of other features, which unfortunately are all but required for this project.
 
 ## Solution Set
 

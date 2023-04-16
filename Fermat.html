@@ -1,0 +1,52 @@
+
+<!--
+	Author:		Anthony John Ripa
+	Date:		2023.04.15
+	Fermat:		A Rule System for Constraints
+-->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Fermat</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	</head>
+	<body>
+		<center>
+			<h1>Fermat</h1>
+			<input id="in" value="X+0=1">
+			<button onclick="go()">Solve</button>
+			<br><br>
+			<div id="out"></div>
+		</center>
+		<script>
+			function go() {
+				let input = $("#in").val()
+				let output = solve(input)
+				$("#out").html(output)
+			}
+			function solve(input) {
+				if (!input.includes("=")) return input
+				let [l,r] = input.split("=")
+				l = math.parse(l)
+				r = math.parse(r)
+				if (l.type=="OperatorNode" && r.type=="ConstantNode") {
+					if (l.op=="+") {
+						if (l.args[0].type=="SymbolNode" && l.args[1].type=="ConstantNode") {
+							return l.args[0].name + " = " + (r.value - l.args[1].value)
+						}
+					}
+				}
+				if (l.type=="OperatorNode" && r.type=="ConstantNode") {
+					if (l.op=="*") {
+						if (l.args[0].type=="SymbolNode" && l.args[1].type=="ConstantNode") {
+							return l.args[0].name + " = " + (r.value / l.args[1].value)
+						}
+					}
+				}
+				return input
+			}
+		</script>
+	</body>
+</html>
