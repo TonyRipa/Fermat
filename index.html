@@ -1,0 +1,75 @@
+
+<!--
+	Author:		Anthony John Ripa
+	Date:		2023.05.15
+	Fermat:		A Rule System for Constraints
+-->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Fermat</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+		<script src="Lisp.js"></script>
+	</head>
+	<body>
+		<center>
+			<h1>Fermat</h1>
+			<input id="in" value="X*0=1" oninput='parse()'>
+			<br><br>
+			<span id="infix"></span> &nbsp; <button onclick="go()">Solve</button>
+			<br><br>
+			<div id="out"></div>
+		</center>
+		<script>
+			parse()
+			function parse() {
+				let input = $("#in").val()
+				let prefix = Lisp.strto(input, true)
+				let infix = Lisp.toinfix(prefix)
+				setinfix(infix)
+			}
+			function go() {
+				let infix = get('#infix')
+				let prefix = Lisp.strto(infix)
+				let output = Lisp.solve(prefix)
+				$("#out").html(output)
+			}
+			function setinfix(infix) {
+				if (infix.includes('IEEE754')) {
+					infix = infix.split('IEEE754').join('<spliter>IEEE754<spliter>').split('<spliter>')
+				} else {
+					infix = [infix]
+				}
+				let html = ''
+				for (let piece of infix) {
+					if (piece=='IEEE754') {
+						html += "<select onchange='go()'>"
+						html += "<option>"+piece+"</option>"
+						html += "<option>Real</option>"
+						html += "</select>"						
+					} else {
+						html += '<span>' + piece + '</span>'
+					}
+				}
+				$("#infix").html(html)
+			}
+			function get(id) {
+				let ret = ''
+				for (let tag of $(id).children()) {
+					if (tag.tagName=='SELECT') {
+						for (let option of tag.children) {
+							if (option.selected) {
+								ret += option.value
+							}
+						}						
+					} else {
+						ret += tag.innerHTML
+					}
+				}
+				return ret
+			}
+		</script>
+	</body>
+</html>
