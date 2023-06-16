@@ -1,7 +1,7 @@
 
 <!--
 	Author:		Anthony John Ripa
-	Date:		2023.05.15
+	Date:		2023.06.15
 	Fermat:		A Rule System for Constraints
 -->
 
@@ -37,17 +37,21 @@
 				$("#out").html(output)
 			}
 			function setinfix(infix) {
-				if (infix.includes('IEEE754')) {
-					infix = infix.split('IEEE754').join('<spliter>IEEE754<spliter>').split('<spliter>')
+				if (infix.includes('Any')) {
+					infix = infix.split('Any').join('<spliter>Any<spliter>').split('<spliter>')
 				} else {
 					infix = [infix]
 				}
 				let html = ''
 				for (let piece of infix) {
-					if (piece=='IEEE754') {
+					if (piece=='Any') {
 						html += "<select onchange='go()'>"
+						html += "<optgroup label='Variable'>"
 						html += "<option>"+piece+"</option>"
+						html += "<option>IEEE754</option>"
 						html += "<option>Real</option>"
+						html += "</optgroup>"
+						html += "<option>Generic</option>"
 						html += "</select>"						
 					} else {
 						html += '<span>' + piece + '</span>'
@@ -59,7 +63,8 @@
 				let ret = ''
 				for (let tag of $(id).children()) {
 					if (tag.tagName=='SELECT') {
-						for (let option of tag.children) {
+						let options = [...tag.children].map(x => x.tagName=='OPTGROUP' ? [...x.children] : x).flat()
+						for (let option of options) {
 							if (option.selected) {
 								ret += option.value
 							}
