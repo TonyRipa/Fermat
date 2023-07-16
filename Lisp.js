@@ -1,6 +1,6 @@
 
 // Author:	Anthony John Ripa
-// Date:	2023.06.15
+// Date:	2023.07.15
 // Lisp:	A Constraint Solver
 
 
@@ -12,6 +12,17 @@ class Lisp {
 			case 'number': return lisp
 			case 'string': return lisp
 			case 'Array' : return lisp.length==2 ? lisp[0] + '(' + lisp[1] + ')' : Lisp.toinfix(lisp[1]) + ' ' + lisp[0] + ' ' + Lisp.toinfix(lisp[2])
+		}
+		return ret
+	}
+
+	static toinfix2(lisp) {
+		let ret = ''
+		switch(Lisp.type(lisp)) {
+			case 'ConstantNode': return lisp
+			case 'SymbolNode': return lisp
+			case 'TypedSymbolNode' : return lisp[0]
+			case 'OperatorNode' : return '( ' + Lisp.toinfix2(lisp[1]) + ' ) ' + lisp[0] + ' ( ' + Lisp.toinfix2(lisp[2]) + ' )'
 		}
 		return ret
 	}
@@ -36,7 +47,10 @@ class Lisp {
 				return [mathexp.op,...mathexp.args.map(x=>mathto(x,infer))]
 			} else if (mathexp.type=="FunctionNode") {
 				return [mathexp.fn,...mathexp.args.map(x=>mathto(x,infer))]
+			} else if (mathexp.type=="ParenthesisNode") {
+				return mathto(mathexp.content, infer)
 			}
+			alert('Lisp.strto.mathto Error : mathexp = ' + mathexp)
 		}
 	}
 
@@ -82,6 +96,42 @@ class Lisp {
 					}
 				}
 			}
+		} else if (type(l)=='OperatorNode' && ground(r)) {
+			if (op(l)=='+') {
+				if (type(args(l)[0])=='SymbolNode' && type(args(l)[1])=='ConstantNode') {
+					var [myvar, ret] = [name(args(l)[0]), (value(r)-value(args(l)[1]))]
+				}
+				if (type(args(l)[0])=='TypedSymbolNode' && type(args(l)[1])=='ConstantNode') {
+					var [myvar,[mytype]] = opargs(args(l)[0])
+					var ret = value(r) - value(args(l)[1])
+				}
+			}
+			if (op(l)=='*') {
+				let [L,R] = args(l)
+				if (type(L) == 'SymbolNode' && type(R) == 'ConstantNode') {
+					var [myvar, ret] = [name(args(l)[0]), (value(r)/value(args(l)[1]))]
+				}
+				if ((type(L) == 'TypedSymbolNode' && type(R) == 'ConstantNode') || (type(L) == 'ConstantNode' && type(R) == 'TypedSymbolNode'))  {
+					var [con,sym] = (type(L) == 'ConstantNode') ? [L,R] : [R,L]
+					var [myvar,[mytype]] = opargs(sym)
+					if (mytype == 'Generic') {
+						return (math.simplify(myvar + ' * ' + con) == value(r)).toString()
+					} else {
+						var ret = value(r) / value(con)
+					}
+				}
+				if (type(L) == 'TypedSymbolNode' && type(R) == 'TypedSymbolNode') {
+					var [myvar,[mytype]] = opargs(L)
+					var [myvar2,[mytype2]] = opargs(R)
+					var [myvar3,[mytype3]] = opargs(r)
+					if (mytype == 'Generic' && mytype2 != 'Generic') {
+						[myvar,mytype,myvar2,mytype2] = [myvar2,mytype2,myvar,mytype]
+					}
+					if (mytype != 'Generic' && mytype2 == 'Generic') {
+						var ret = math.simplify('( ' + Lisp.toinfix2(r) + ') / ' + name(myvar2))
+					}
+				}
+			}
 		}
 		if (ret == undefined) return Lisp.toinfix(lisp)
 		let set = solution_intersect_mytype(ret, mytype)
@@ -112,6 +162,10 @@ class Lisp {
 			}
 			return '{ ' + solution + ' }'
 		}
+		function compound(lisp) { return type(lisp)=='OperatorNode' }
+		function atomic(lisp) { return !compound(lisp) }
+		function isvar(lisp) { return type(lisp)=='TypedSymbolNode' && lisp[1]!='Generic' }
+		function ground(lisp) { return atomic(lisp) ? !isvar(lisp) : lisp.every(ground) }
 	}
 
 	static type(lisp) {
