@@ -1,8 +1,8 @@
 
 <!--
-	Author:		Anthony John Ripa
-	Date:		2023.07.15
-	Fermat:		A Rule System for Constraints
+	Author:	Anthony John Ripa
+	Date:	2023.08.15
+	Fermat:	A Rule System for Constraints
 -->
 
 <!DOCTYPE html>
@@ -11,6 +11,7 @@
 		<title>Fermat</title>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.2/math.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+		<script src="expression.js"></script>
 		<script src="Lisp.js"></script>
 	</head>
 	<body>
@@ -18,62 +19,65 @@
 			<h1>Fermat</h1>
 			<input id="in" value="X*0=1" oninput='parse()'>
 			<br><br>
+			<span id="vars"></span>
+			<br><br>
+			<span id="type"></span>
+			<br><br>
 			<span id="infix"></span> &nbsp; <button onclick="go()">Solve</button>
 			<br><br>
 			<div id="out"></div>
 		</center>
 		<script>
 			parse()
+			function getvars() { return Expression.getvars($("#in").val()) }
 			function parse() {
-				let input = $("#in").val()
-				let prefix = Lisp.strto(input, true)
-				let infix = Lisp.toinfix(prefix)
-				setinfix(infix)
+				let vars = getvars()
+				$("#vars").html(JSON.stringify(vars))
+				settype(vars)
 			}
 			function go() {
-				let infix = get('#infix')
+				let symboltable = getsymboltable()
+				console.log(symboltable)
+				let infix = $("#in").val()
 				let prefix = Lisp.strto(infix)
-				let output = Lisp.solve(prefix)
+				let output = Lisp.solve(prefix,symboltable)
 				$("#out").html(output)
 			}
-			function setinfix(infix) {
-				if (infix.includes('Any')) {
-					infix = infix.split('Any').join('<spliter>Any<spliter>').split('<spliter>')
-				} else {
-					infix = [infix]
-				}
+			function settype(vars) {
 				let html = ''
-				for (let piece of infix) {
-					if (piece=='Any') {
-						html += "<select onchange='go()'>"
-						html += "<optgroup label='Variable'>"
-						html += "<option>"+piece+"</option>"
-						html += "<option>IEEE754</option>"
-						html += "<option>Real</option>"
-						html += "</optgroup>"
-						html += "<option>Generic</option>"
-						html += "</select>"						
-					} else {
-						html += '<span>' + piece + '</span>'
-					}
+				for (let myvar of vars) {
+					html += "<select onchange='go()'>"
+					html += "<optgroup label='Variable'>"
+					html += "<option>Any</option>"
+					html += "<option>IEEE754</option>"
+					html += "<option>Real</option>"
+					html += "</optgroup>"
+					html += "<option>Generic</option>"
+					html += "</select>"						
 				}
-				$("#infix").html(html)
+				$("#type").html(html)
 			}
-			function get(id) {
-				let ret = ''
+			function getarray(id) {
+				let ret = []
 				for (let tag of $(id).children()) {
 					if (tag.tagName=='SELECT') {
 						let options = [...tag.children].map(x => x.tagName=='OPTGROUP' ? [...x.children] : x).flat()
 						for (let option of options) {
 							if (option.selected) {
-								ret += option.value
+								ret.push(option.value)
 							}
 						}						
 					} else {
-						ret += tag.innerHTML
+						ret.push(tag.innerHTML) 
 					}
 				}
 				return ret
+			}
+			function getsymboltable() {
+				let vars = getvars()
+				if (vars.length == 0) return {}
+				let types = getarray('#type')
+				return Object.fromEntries(math.transpose([vars,types]))
 			}
 		</script>
 	</body>

@@ -1,28 +1,19 @@
 
-// Author:	Anthony John Ripa
-// Date:	2023.07.15
-// Lisp:	A Constraint Solver
-
+/*
+	Author:	Anthony John Ripa
+	Date:	2023.08.15
+	Lisp:	A Constraint Solver
+*/
 
 class Lisp {
 
 	static toinfix(lisp) {
 		let ret = ''
-		switch(math.typeOf(lisp)) {
-			case 'number': return lisp
-			case 'string': return lisp
-			case 'Array' : return lisp.length==2 ? lisp[0] + '(' + lisp[1] + ')' : Lisp.toinfix(lisp[1]) + ' ' + lisp[0] + ' ' + Lisp.toinfix(lisp[2])
-		}
-		return ret
-	}
-
-	static toinfix2(lisp) {
-		let ret = ''
 		switch(Lisp.type(lisp)) {
 			case 'ConstantNode': return lisp
 			case 'SymbolNode': return lisp
 			case 'TypedSymbolNode' : return lisp[0]
-			case 'OperatorNode' : return '( ' + Lisp.toinfix2(lisp[1]) + ' ) ' + lisp[0] + ' ( ' + Lisp.toinfix2(lisp[2]) + ' )'
+			case 'OperatorNode' : return '( ' + Lisp.toinfix(lisp[1]) + ' ) ' + lisp[0] + ' ( ' + Lisp.toinfix(lisp[2]) + ' )'
 		}
 		return ret
 	}
@@ -54,48 +45,15 @@ class Lisp {
 		}
 	}
 
-	static solve(lisp) {
+	static solve(lisp,symboltable) {
+		console.log(lisp,symboltable)
 		if (type(lisp) != 'OperatorNode') return lisp
 		if (!op(lisp) == '=') return lisp
 		let [l,r] = args(lisp)
 		if (type(l)=='TypedSymbolNode' && type(r)=='ConstantNode') {
 			var [myvar,[mytype]] = opargs(l)
+			mytype = symboltable[myvar]
 			var ret = value(r)
-		} else if (type(l)=='OperatorNode' && type(r)=='ConstantNode') {
-			if (op(l)=='+') {
-				if (type(args(l)[0])=='SymbolNode' && type(args(l)[1])=='ConstantNode') {
-					var [myvar, ret] = [name(args(l)[0]), (value(r)-value(args(l)[1]))]
-				}
-				if (type(args(l)[0])=='TypedSymbolNode' && type(args(l)[1])=='ConstantNode') {
-					var [myvar,[mytype]] = opargs(args(l)[0])
-					var ret = value(r) - value(args(l)[1])
-				}
-			}
-			if (op(l)=='*') {
-				let [L,R] = args(l)
-				if (type(L) == 'SymbolNode' && type(R) == 'ConstantNode') {
-					var [myvar, ret] = [name(args(l)[0]), (value(r)/value(args(l)[1]))]
-				}
-				if ((type(L) == 'TypedSymbolNode' && type(R) == 'ConstantNode') || (type(L) == 'ConstantNode' && type(R) == 'TypedSymbolNode'))  {
-					var [con,sym] = (type(L) == 'ConstantNode') ? [L,R] : [R,L]
-					var [myvar,[mytype]] = opargs(sym)
-					if (mytype == 'Generic') {
-						return (math.simplify(myvar + ' * ' + con) == value(r)).toString()
-					} else {
-						var ret = value(r) / value(con)
-					}
-				}
-				if (type(L) == 'TypedSymbolNode' && type(R) == 'TypedSymbolNode') {
-					var [myvar,[mytype]] = opargs(L)
-					var [myvar2,[mytype2]] = opargs(R)
-					if (mytype == 'Generic' && mytype2 != 'Generic') {
-						[myvar,mytype,myvar2,mytype2] = [myvar2,mytype2,myvar,mytype]
-					}
-					if (mytype != 'Generic' && mytype2 == 'Generic') {
-						var ret = math.simplify(value(r) + ' / ' + name(myvar2))
-					}
-				}
-			}
 		} else if (type(l)=='OperatorNode' && ground(r)) {
 			if (op(l)=='+') {
 				if (type(args(l)[0])=='SymbolNode' && type(args(l)[1])=='ConstantNode') {
@@ -103,32 +61,54 @@ class Lisp {
 				}
 				if (type(args(l)[0])=='TypedSymbolNode' && type(args(l)[1])=='ConstantNode') {
 					var [myvar,[mytype]] = opargs(args(l)[0])
+					mytype = symboltable[myvar]
 					var ret = value(r) - value(args(l)[1])
 				}
 			}
 			if (op(l)=='*') {
 				let [L,R] = args(l)
 				if (type(L) == 'SymbolNode' && type(R) == 'ConstantNode') {
-					var [myvar, ret] = [name(args(l)[0]), (value(r)/value(args(l)[1]))]
-				}
-				if ((type(L) == 'TypedSymbolNode' && type(R) == 'ConstantNode') || (type(L) == 'ConstantNode' && type(R) == 'TypedSymbolNode'))  {
 					var [con,sym] = (type(L) == 'ConstantNode') ? [L,R] : [R,L]
 					var [myvar,[mytype]] = opargs(sym)
+					mytype = symboltable[myvar]
 					if (mytype == 'Generic') {
 						return (math.simplify(myvar + ' * ' + con) == value(r)).toString()
 					} else {
 						var ret = value(r) / value(con)
 					}
 				}
-				if (type(L) == 'TypedSymbolNode' && type(R) == 'TypedSymbolNode') {
+				if ((type(L) == 'TypedSymbolNode' && type(R) == 'ConstantNode') || (type(L) == 'ConstantNode' && type(R) == 'TypedSymbolNode'))  {
+					var [con,sym] = (type(L) == 'ConstantNode') ? [L,R] : [R,L]
+					var [myvar,[mytype]] = opargs(sym)
+					mytype = symboltable[myvar]
+					if (mytype == 'Generic') {
+						return (math.simplify(myvar + ' * ' + con) == value(r)).toString()
+					} else {
+						var ret = value(r) / value(con)
+					}
+				}
+				if (type(L) == 'SymbolNode' && type(R) == 'SymbolNode') {
 					var [myvar,[mytype]] = opargs(L)
 					var [myvar2,[mytype2]] = opargs(R)
-					var [myvar3,[mytype3]] = opargs(r)
+					mytype = symboltable[myvar]
+					mytype2 = symboltable[myvar2]
 					if (mytype == 'Generic' && mytype2 != 'Generic') {
 						[myvar,mytype,myvar2,mytype2] = [myvar2,mytype2,myvar,mytype]
 					}
 					if (mytype != 'Generic' && mytype2 == 'Generic') {
-						var ret = math.simplify('( ' + Lisp.toinfix2(r) + ') / ' + name(myvar2))
+						var ret = math.simplify('( ' + Lisp.toinfix(r) + ') / ' + name(myvar2))
+					}
+				}
+				if (type(L) == 'TypedSymbolNode' && type(R) == 'TypedSymbolNode') {
+					var [myvar,[mytype]] = opargs(L)
+					var [myvar2,[mytype2]] = opargs(R)
+					mytype = symboltable[myvar]
+					mytype2 = symboltable[myvar2]
+					if (mytype == 'Generic' && mytype2 != 'Generic') {
+						[myvar,mytype,myvar2,mytype2] = [myvar2,mytype2,myvar,mytype]
+					}
+					if (mytype != 'Generic' && mytype2 == 'Generic') {
+						var ret = math.simplify('( ' + Lisp.toinfix(r) + ') / ' + name(myvar2))
 					}
 				}
 			}
@@ -141,7 +121,7 @@ class Lisp {
 		function opargs(lisp) { return [op(lisp),args(lisp)] }
 		function args(lisp) { return lisp.slice(1) }
 		function op(lisp) { return lisp[0] }
-		function type(lisp) { return Lisp.type(lisp) }
+		function type(lisp) { console.log(lisp); return Lisp.type(lisp) }
 		function solution_intersect_mytype(solution, mytype) {
 			if (math.typeOf(solution)=='number' && isNaN(solution)) {
 				return name(mytype)
@@ -158,13 +138,13 @@ class Lisp {
 			} else if (mytype == 'Any') {
 				//	Accept
 			} else {
-				alert('Error: space = ' + space)
+				alert('Error: mytype = ' + mytype)
 			}
 			return '{ ' + solution + ' }'
 		}
 		function compound(lisp) { return type(lisp)=='OperatorNode' }
 		function atomic(lisp) { return !compound(lisp) }
-		function isvar(lisp) { return type(lisp)=='TypedSymbolNode' && lisp[1]!='Generic' }
+		function isvar(lisp) { return type(lisp)=='TypedSymbolNode' && symboltable[lisp[0]]!='Generic' }
 		function ground(lisp) { return atomic(lisp) ? !isvar(lisp) : lisp.every(ground) }
 	}
 
@@ -174,7 +154,8 @@ class Lisp {
 			case "string": return "SymbolNode"
 			case "Array": return lisp.length==2 && ['IEEE754','Real','Generic','Any'].includes(lisp[1]) ? "TypedSymbolNode" : "OperatorNode"
 		}
-		alert('type unknown')
+		console.trace()
+		alert('type unknown: ' + lisp)
 	}
 
 }
