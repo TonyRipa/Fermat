@@ -1,7 +1,7 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	2023.09.15
+	Date:	2023.10.15
 	Lisp:	A Constraint Solver
 */
 
@@ -10,7 +10,7 @@ class Lisp {
 	static toinfix(lisp) {
 		let ret = ''
 		switch(Lisp.type(lisp)) {
-			case 'ConstantNode': return lisp
+			case 'ConstantNode': return lisp.toString()
 			case 'SymbolNode': return lisp
 			case 'OperatorNode' : return '( ' + Lisp.toinfix(lisp[1]) + ' ) ' + lisp[0] + ' ( ' + Lisp.toinfix(lisp[2]) + ' )'
 		}
@@ -44,42 +44,26 @@ class Lisp {
 		}
 	}
 
-	static solve(lisp,symboltable) {
+	static solve(lisp, symboltable) {
 		console.log(lisp,symboltable)
 		if (type(lisp) != 'OperatorNode') return lisp
-		if (!op(lisp) == '=') return lisp
+		if (op(lisp) != '=') return math.simplify(Lisp.toinfix(lisp)).toString()
 		let [l,r] = args(lisp)
+		if (ground(l) && !ground(r)) return Lisp.solve(['=',r,l], symboltable)
+		if (ground(l) &&  ground(r)) return (math.simplify(Lisp.toinfix(l)).toString() == math.simplify(Lisp.toinfix(r))).toString()
+		if ( isvar(l) &&  ground(r)) {
+			var myvar = l
+			var mytype = symboltable[myvar]
+			var ret = math.simplify(Lisp.toinfix(r).toString())
+		}
 		if (type(l)=='OperatorNode' && ground(r)) {
-			if (op(l)=='+') {
-				if (type(args(l)[0])=='SymbolNode' && type(args(l)[1])=='ConstantNode') {
-					var [myvar, ret] = [name(args(l)[0]), (value(r)-value(args(l)[1]))]
-					mytype = symboltable[myvar]
-				}
-			}
-			if (op(l)=='*') {
-				let [L,R] = args(l)
-				if (type(L) == 'SymbolNode' && type(R) == 'ConstantNode') {
-					var [con,sym] = (type(L) == 'ConstantNode') ? [L,R] : [R,L]
-					var [myvar,[mytype]] = opargs(sym)
-					mytype = symboltable[myvar]
-					if (mytype == 'Generic') {
-						return (math.simplify(myvar + ' * ' + con) == value(r)).toString()
-					} else {
-						var ret = value(r) / value(con)
-					}
-				}
-				if (type(L) == 'SymbolNode' && type(R) == 'SymbolNode') {
-					var [myvar,[mytype]] = opargs(L)
-					var [myvar2,[mytype2]] = opargs(R)
-					mytype = symboltable[myvar]
-					mytype2 = symboltable[myvar2]
-					if (mytype == 'Generic' && mytype2 != 'Generic') {
-						[myvar,mytype,myvar2,mytype2] = [myvar2,mytype2,myvar,mytype]
-					}
-					if (mytype != 'Generic' && mytype2 == 'Generic') {
-						var ret = math.simplify('( ' + Lisp.toinfix(r) + ') / ' + name(myvar2))
-					}
-				}
+			let anti = {'+': '-', '*': '/'}[op(l)]
+			let [L,R] = args(l)
+			if ( ground(L) && !ground(R)) return Lisp.solve(['=',[op(l),R,L],r], symboltable)
+			if (!ground(L) &&  ground(R)) {
+				var myvar = L
+				var mytype = symboltable[myvar]
+				var ret = math.simplify(Lisp.toinfix([anti, r, R]))
 			}
 		}
 		if (ret == undefined) return Lisp.toinfix(lisp)

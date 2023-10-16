@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2023.09.15
+Date:	2023.10.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -27,7 +27,7 @@ Alternatively, we may think of it as a hierarchy. Numbers are at the base of thi
 
 ## Language Choice
 
-Prolog is a natural first choice, as it already distinguishes between variables like X and atoms like x, by using upper-case and lower-case respectively. Some drawbacks include the fact that getting X to print as X consistently is difficult as the run-time controls variables. Furthermore, constraint programming requires programming hooks, with difficulty on the order of reflective programming. The strong native support for some convenient features comes at the price of higher cost of other features, which unfortunately are all but required for this project.
+Prolog is a natural first choice, as it already distinguishes between variables like X and atoms like x, by using upper-case and lower-case respectively. Some drawbacks include the fact that getting X to print as X consistently is difficult as the run-time controls variables. Furthermore, constraint programming requires programming hooks, with difficulty on the order of reflective programming. The strong native support for some convenient features comes at the price of higher cost of other features, which unfortunately are all but required for this project. By porting to JavaScript, we give up some convenient Prolog native support (auto-parsing), and gain other convenient JavaScript native support (manual-parsing).
 
 ## Solution Set
 
