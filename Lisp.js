@@ -1,7 +1,7 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	2023.10.15
+	Date:	2023.11.15
 	Lisp:	A Constraint Solver
 */
 
@@ -44,6 +44,28 @@ class Lisp {
 		}
 	}
 
+	static simplify(lisp, type) {
+		if (Lisp.type(lisp)!='OperatorNode') return lisp
+		let op = lisp[0]
+		let left = Lisp.simplify(lisp[1], type)
+		let right = Lisp.simplify(lisp[2], type)
+		if (type == 'Boolean') {
+			if (op=='+') return math.max(left,right)
+			if (op=='*') return math.min(left,right)
+			if (op=='/') {
+				if (left==0 && right==0) return 0/0
+				return math.simplify(left + '/' + right)
+			}
+			if (op=='-') {
+				if (left==0 && right==0) return 0/1
+				if (left==0 && right==1) return 1/0
+				if (left==1 && right==0) return 1/1
+				if (left==1 && right==1) return 0/0
+			}
+		}
+		return math.simplify(left + op + right)
+	}
+
 	static solve(lisp, symboltable) {
 		console.log(lisp,symboltable)
 		if (type(lisp) != 'OperatorNode') return lisp
@@ -54,7 +76,7 @@ class Lisp {
 		if ( isvar(l) &&  ground(r)) {
 			var myvar = l
 			var mytype = symboltable[myvar]
-			var ret = math.simplify(Lisp.toinfix(r).toString())
+			var ret = Lisp.simplify(r, mytype)
 		}
 		if (type(l)=='OperatorNode' && ground(r)) {
 			let anti = {'+': '-', '*': '/'}[op(l)]
@@ -63,7 +85,7 @@ class Lisp {
 			if (!ground(L) &&  ground(R)) {
 				var myvar = L
 				var mytype = symboltable[myvar]
-				var ret = math.simplify(Lisp.toinfix([anti, r, R]))
+				var ret = Lisp.simplify([anti, r, R], mytype)
 			}
 		}
 		if (ret == undefined) return Lisp.toinfix(lisp)
@@ -78,6 +100,12 @@ class Lisp {
 		function solution_intersect_mytype(solution, mytype) {
 			if (math.typeOf(solution)=='number' && isNaN(solution)) {
 				return name(mytype)
+			} else if (mytype == 'Boolean') {
+				if (math.typeOf(ret)=='OperatorNode') {
+					return '{ }'
+				} else if (1/ret==0) {
+					return '{ }'
+				}
 			} else if (mytype == 'Real') {
 				if (math.typeOf(ret)=='OperatorNode') {
 					return '{ }'

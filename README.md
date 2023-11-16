@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2023.10.15
+Date:	2023.11.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -69,7 +69,7 @@ The approach was to break into 2 steps: first a domain independent constraint si
 
 We will consider Constraint Satisfaction with domain dependency. What if we are in the integer domain and the user specifies X \* 0 = 0 ? The answer seems to be X ∈ ℤ . Prolog's library(clpfd) notates this as "X in inf..sup" (where inf means infimum and sup means supremum) . So, instead of returning X=\_672 indicating X is a fresh Prolog variable (which could be any possible thing), we can instead return X in inf..sup, or X is integer (notating that X is an Integer). Furthermore if both X=7 and X in inf..sup are true, then it should return X=7. Also integer(X) can return X in inf..sup. We want X\*2=1 to return X=0.5 , while integer(X),X\*2=1 should return false.
 
-Users are likely to input expressions such as X \* 0 = 0 (or X \* X = X) without ever specifying a domain. In this case, the problem is underspecified. What can be done? One solution is rewriting the expression as the user types in the input (as seen in modern Computer Algebra Systems like Maple & Mathematica) and/or querying the user for ambiguous input such as Maple. These user-interface issues are not best addressed in a command-line language like Prolog, but are easy to address in a Visual User Interface language like JavaScript. One solution is an interactive Symbol Table.
+Users are likely to input expressions such as X \* 0 = 0 (or X \* X = X) without ever specifying a domain. In this case, the problem is underspecified. What can be done? One solution is rewriting the expression as the user types in the input (as seen in modern Computer Algebra Systems like Maple & Mathematica) and/or querying the user for ambiguous input such as Maple. These user-interface issues are not best addressed in a command-line language like Prolog, but are easy to address in a Visual User Interface language like JavaScript. Another solution is an interactive Symbol Table.
 
 ## Relations
 
