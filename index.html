@@ -1,7 +1,7 @@
 
 <!--
 	Author:	Anthony John Ripa
-	Date:	2023.11.15
+	Date:	2023.12.15
 	Fermat:	A Rule System for Constraints
 -->
 
@@ -9,7 +9,7 @@
 <html>
 	<head>
 		<title>Fermat</title>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.2/math.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.2.0/math.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 		<script src="expression.js"></script>
 		<script src="Lisp.js"></script>
@@ -17,7 +17,7 @@
 	<body>
 		<center>
 			<h1>Fermat</h1>
-			<input id="in" value="X*0=1" oninput='parse()'>
+			<span id="quantifiers"></span> <input id="in" value="X*0=1" oninput='parse()'>
 			<br><br>
 			<span id="vars"></span>
 			<br><br>
@@ -42,6 +42,8 @@
 				let prefix = Lisp.strto(infix)
 				let output = Lisp.solve(prefix,symboltable)
 				$("#out").html(output)
+				let quants = quantifiers(symboltable)
+				$("#quantifiers").html(quants.join((quants[0].length>0?' |':'')+(quants[1].length>0?' ∀':'')))
 			}
 			function settype(vars) {
 				let html = ''
@@ -79,6 +81,12 @@
 				if (vars.length == 0) return {}
 				let types = getarray('#type')
 				return Object.fromEntries(math.transpose([vars,types]))
+			}
+			function quantifiers(symboltable) {
+				let ret = [[],[]]
+				for (const [key,val] of Object.entries(symboltable))
+					ret[(val=='Generic')?1:0].push(key)
+				return ret
 			}
 		</script>
 	</body>

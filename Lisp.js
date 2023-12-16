@@ -1,7 +1,7 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	2023.11.15
+	Date:	2023.12.15
 	Lisp:	A Constraint Solver
 */
 
@@ -63,7 +63,7 @@ class Lisp {
 				if (left==1 && right==1) return 0/0
 			}
 		}
-		return math.simplify(left + op + right)
+		return math.simplify('(' + left + ')' + op + '(' + right + ')')
 	}
 
 	static solve(lisp, symboltable) {

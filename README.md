@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2023.11.15
+Date:	2023.12.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -195,6 +195,20 @@ This is like 2/3 = 2/3. It is a bit like a fractal because it invites repetition
 As something of an aside, in one of our other notations, this would be notated as the irreducible expression x@x\*x=-1 . Alternatively, we could use the previous r notation like r( x , x\*x ,  , -1 ) .
 
 In conclusion, much of this entire work has been about avoiding unnecessary new syntax. We can do the same thing again here, by returning irreducible expressions, as the answer to any posed question.
+
+## Quantifiers
+
+In solving m \* h = h , we noted ambiguity. One attempt to disambiguate was by labeling m as a variable, and h as a generic. Solving (for the only variable in the equation) we got m=1 .
+
+Another approach is quantifiers. The two most famous quantifiers are ∀ (for all) and ∃ (for some). We may write ∃x x+x=8 . This is true, because for some x self-addition is 8 (for example 4+4=8). We may write ∀x x+x=8 . This is an example of a statement that means for all x, self-addition is 8. This statement happens to be false as shown by counter-example (for example, for x=1). There is also the (pseudo)quantifier | (such that). We can write x | x+x=8 . This means x such that x+x=8 . This statement evaluates to 4.
+
+The quantifiers ∀ and ∃ when used in a statement always evaluate to true or false. The (pseudo)quantifier | need not, and typically evaluates to a number.
+
+With these quantifiers in mind, we may attempt to disambiguate expressions like m \* h = h.
+
+We will write m | ∀h m \* h = h. This means that we want to find an m such that for all h, m \* h = h. The m| means solve for m. The ∀h means that it must work for all h. The meaning is clear; solve for m and it must work for all h. We might guess m=2. However, we quickly notice that this does not work for all h (for example 2 \* 7 = 7). We might guess m=1. This does work for all h (for all h, 1 \* h = h). So, m | ∀h m \* h = h evaluates to 1.
+
+It seems that we are able to disambiguate ambiguous expressions like m \* h = h , with quantifiers. 
 
 ## Dependencies
 
