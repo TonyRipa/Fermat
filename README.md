@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2023.12.15
+Date:	2024.01.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -46,6 +46,10 @@ We return to x/x. For generics we think we can safely replace x/x with 1. Constr
 For generic semantics is seemed that x/x=1. This may have taken some convincing because constraint semantics suggested there's a hole. However, we never seemed to question x-x=0. This seemed obviously true because constraint semantics had allowed it. However, cautious constraint semantics does not allow it. This suggests that for generics x/x=1 is as safe as x-x=0. For generic semantics we did not ground the semantics in imagined substitutions but on generic quantities. For example x/x is 1 because how many x's per x are there? The answer is 1. Similarly, for x-x=0.
 
 In conclusion, x/x=1 is as true as x-x=0. Also X/X=1 is as true as X-X=0. Objections that emerge from considerations of real numbers are special cases (much like the theorems in real-analysis when compared with complex-analysis). Intuitions about what x/x should be given what X/X should be, when only thinking about reals, are unreliable domain specific intuitions that are half oversafe and half undersafe. Traditional methods have a trade-off profile that has been largely overlooked, likely because it was not fully explored. Fully understanding that trade-off can inform the practitioner as to what approach is more desirable and when. An alternate approach is splitting into 2 semantics: 1) Generic semantics where x/x=1 and x-x=0 can guarantee safety 2) Constraint semantics where neither X/X=1 nor X-X=0 can guarantee safety. If problems can be well-modularized into the different semantics, then it would appear that it may be a good choice to apply the appropriate semantics in the appropriate place, instead of trying a one-size-fits-all, especially when it becomes clear that the one-size-fits-all is not so good a fit.
+
+## Dependency
+
+Constraints vs. Generics model 2 types. We may imagine multiple types based on dependencies. For example, we can have a dependency chain, y=x, where y is Any, and x is Real. Alternatively, we can have a dependency chain, y=x, where y is Any, and x lacks depedence. In the latter case, x is like a generic. We might imagine all kinds of dependency chains, trees, loops, etc. which might otherwise be interpreted as many different kinds of types.
 
 ## 0\*X=0
 

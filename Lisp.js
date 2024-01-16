@@ -1,7 +1,7 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	2023.12.15
+	Date:	2024.01.15
 	Lisp:	A Constraint Solver
 */
 
@@ -87,10 +87,20 @@ class Lisp {
 				var mytype = symboltable[myvar]
 				var ret = Lisp.simplify([anti, r, R], mytype)
 			}
+			if (!ground(L) && !ground(R) && symboltable[R]!='Any') {	//	+2024.1
+				var myvar = L
+				var mytype = symboltable[myvar]
+				var ret = Lisp.simplify([anti, r, R], mytype)
+				var myvars = [R, L]
+			}
 		}
 		if (ret == undefined) return Lisp.toinfix(lisp)
 		let set = solution_intersect_mytype(ret, mytype)
-		return myvar + ' ∈ ' + set
+		if (typeof myvars != 'undefined') {								//	+2024.1
+			return myvars[0] + ' ∈ ' + symboltable[myvars[0]] + '<br><br>' + myvars[1] + ' ∈ ' + set
+		} else {
+			return myvar + ' ∈ ' + set
+		}
 		function value(lisp) { return lisp }
 		function name(lisp) { return lisp }
 		function opargs(lisp) { return [op(lisp),args(lisp)] }
