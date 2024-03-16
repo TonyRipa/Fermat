@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2024.02.15
+Date:	2024.03.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -49,7 +49,7 @@ In conclusion, x/x=1 is as true as x-x=0. Also X/X=1 is as true as X-X=0. Object
 
 ## Dependency
 
-Constraints vs. Generics model 2 types. We may imagine multiple types based on dependencies. For example, we can have a dependency chain, y=x, where y is Any, and x is Real (or vice-versa). Alternatively, we can have a dependency chain, y=x, where y is Any, and x lacks depedence. In the latter case, x is like a generic. We might imagine all kinds of dependency chains, trees, loops, etc. which might otherwise be interpreted as many different kinds of types.
+Constraints vs. Generics model 2 types. We may imagine multiple types based on dependencies. For example, we can have a dependency chain, y=x, where y is Any, and x is Real (or vice-versa). Alternatively, we can have a dependency chain, y=x, where y is Any, and x lacks dependence. In the latter case, x is like a generic. We might imagine all kinds of dependency chains, trees, loops, etc. which might otherwise be interpreted as many different kinds of types.
 
 ## 0\*X=0
 

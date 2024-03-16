@@ -1,7 +1,7 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	2024.02.15
+	Date:	2024.03.15
 	Lisp:	A Constraint Solver
 */
 
@@ -73,6 +73,11 @@ class Lisp {
 		let [l,r] = args(lisp)
 		if (ground(l) && !ground(r)) return Lisp.solve(['=',r,l], symboltable)
 		if (ground(l) &&  ground(r)) return (math.simplify(Lisp.toinfix(l)).toString() == math.simplify(Lisp.toinfix(r))).toString()
+		if ( isvar(l) &&  l==r) {	//	+2024.3
+			var myvar = l
+			var mytype = symboltable[myvar]
+			var ret = 0/0
+		}
 		if ( isvar(l) &&  ground(r)) {
 			var myvar = l
 			var mytype = symboltable[myvar]
