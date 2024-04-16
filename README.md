@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2024.03.15
+Date:	2024.04.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -38,6 +38,50 @@ A common approach to dealing with constraints is to fix the solution set before 
 Let's consider 2 examples in which thinking that we know enough to fix the hypothesis space fails. One is with real numbers. When performing the calculations for the existence of regular polyhedra (the so-called Platonic solid) we assume a real number for the solutions. If so we get 5 Platonic solids. If we use R* the extended reals, we get 6. The sixth is the Sphere. We can't predict beforehand the right solution space. Therefore, we can't predict anything about the shapes which we can expect, or not expect. Making presumptions limits the shapes that we can find. Another example is from Differential Equations. Here we assume complex number solutions. We may want to solve Df=cf. We translate that to (D-c)f=0. We solve corresponding equation D-c=0 or m-c=0. We get m=c and the solution is e^(ct). We may have 2 different roots (D-c₁)(D-c₂)f=0. Here we get solutions e^(c₁t) and e^(c₂t). The roots may be repeated c₁=c₂. In this case instead of e^(c₁t) and e^(c₂t) we get e^(c₁t) and te^(c₂t). This seems to break the format, and should raise a flag, but seems not to have brought into question the solution set. Remember we had the idea that a polynomial of degree n has n roots. However, it is typically allowed to have repeated roots. This is suspicious, and violates the original assumption, with an exception case. Consider x^2=0. Typically it is said to have repeated roots r₁=r₂=0. Let's rethink. x^2=0 seems to have 0 as a solution. A solution should be any number that when squared gives 0. Racking our brain we may recall some work with nilpotent numbers (sometimes written ε) that are not 0 but whose square is 0. Allowing this then we get 2 solutions (as the theorem predicts) to x^2=0. The solutions are r₁=0, and r₁=ε. The solutions are e^(c₁t) and e^(c₂t) which are e^(0t) and e^(εt). The first is 1. The second is e^(εt) = 1+εt+ε^2t/2+ε^3t/6+… = 1+εt+0+0+… = 1+εt. This seems to give us both solutions without special cases. It seems that to solve polynomial constraints, not only should we understand roots of unity, but we should also understand roots of nullity. The moral seems to be that even after centuries (in the Diff.Eq. case) or millennia (in the Platonic case) when we think that we have fully determined the solution space, we can still be wrong.
 
 This being the case it seems that the best we can do is merely return popular solutions, not all of them. In the alternative, instead of returning the solution set, we may return the simplified version of the constraint. Maybe if the input is X^2=1-1 then we return X^2=0 (a simpler constraint) not a solution set like {0} or {0,ε}.
+
+## Objects
+
+When we see a letter like x we are somehow conditioned to think of a variable. However, sometimes letters refer to constants, like a name.
+
+When we see a constant like x we are somehow conditioned to think of a number. However, sometimes constants refer to objects, like a line-segment or event.
+
+### Objects in Statistics
+
+In Statistics, we often see Odds(Event1:Event2). Event1 is not a variable. Event1 is a constant. Event1 is an event. The same is true for Event2. Odds(Event1:Event2) means the odds of Event1 to Event2. Or how much more likely is Event1 than Event2. The events are not numbers. The Odds(Event1:Event2) may be a number. Consider Odds(E1:E1). How much more likely is E1 than E1. They are just as likely. We may write 1:1 or 1/1 or 1. Note that this is true no matter how likely we label E1 to be. This is crucial because the relative chance does not depend on any absolute chance. Crucially, it is even true if we think there is no chance of E1. Odds(E1:E1) is 1 even if E1 = "Going faster than the speed of light" or something else we think impossible. This is not because E1 has a small non-zero chance. It is because the relative chance of any event to itself is 1. There is no division by zero. We do not compare the numbers. We compare the events. If E2 is "Going faster than the speed of light on a weekend" Odds (E2:E1) = 2:7 or 2/7. Not because either is possible or non-zero. We do not divide numbers. We compare events directly.
+
+Consider 4 events E1,E2,E3,E4. These events may correspond to a discrete probability distribution [.5,.5,0,0] . We may be interested in calculating all the pairwise odds; this concept seems obvious but is not easy too find in literature; we call it an odds table. We may try to use the discrete probability distribution to calculate the odds table. Here goes:
+
+<table border>
+	<tr><th>Odds</th><th>E1</th><th>E2</th><th>E3</th><th>E4</th></tr>
+	<tr><th>E1</th><td>1</td><td>1</td><td>∞</td><td>∞</td></tr>
+	<tr><th>E2</th><td>1</td><td>1</td><td>∞</td><td>∞</td></tr>
+	<tr><th>E3</th><td>0</td><td>0</td><td>%</td><td>%</td></tr>
+	<tr><th>E4</th><td>0</td><td>0</td><td>%</td><td>%</td></tr>
+</table>
+
+We see it works well in the top-left quadrant; this is because we only have to divide non-zero numbers to calculate the odds. We see it also works well in the bottom-left quadrant; this is because we only have to divide with non-zero numbers in the denominator to calculate the odds. We see it also works fairly well in the top-right quadrant; this is because we only have to divide with non-zero numbers in the numerator to calculate the odds. We see it doesn't work too well in the bottom-right quadrant; this is because we have to divide with zero numbers in both the numerator and the denominator to calculate the odds; we get the indeterminate form 0/0, which is no information.
+
+It may be the case that E3 is twice as likely as E4. Perhaps E4 is 1 point on an interval, and has probability 0. Perhaps E3 is 2 points on an interval, and has probability 0. E3 can be twice as likely as E4, even if we can't infer that from the probability distributions. We need a new data-structure that can carry the information that a probability distribution doesn't.
+
+We introduce a new data-structure called an odds chain. The odds chain contains a linear sequence of odds of Eventₙ₊₁ to Eventₙ. For example, our events 1 through 4 correspond to the odds chain Odds(Event2:Event1),Odds(Event3:Event2),Odds(Event4:Event3) = 1,0,½ . We can expand this odds chain to calculate the odds table; provided we use the expansion formulas Odds(A:B) = 1 / Odds(B:A) , Odds(A:C) = Odds(A:B) \* Odds(B:C) .
+
+<table border>
+	<tr><th>Odds</th><th>E1</th><th>E2</th><th>E3</th><th>E4</th></tr>
+	<tr><th>E1</th><td>1</td><td>1</td><td>∞</td><td>∞</td></tr>
+	<tr><th>E2</th><td>1</td><td>1</td><td>∞</td><td>∞</td></tr>
+	<tr><th>E3</th><td>0</td><td>0</td><td>1</td><td>2</td></tr>
+	<tr><th>E4</th><td>0</td><td>0</td><td>½</td><td>1</td></tr>
+</table>
+
+There is concern of exotic cases such as odds trees or lattices that cannot be properly compressed with an odds chain such that recovering the full odds table is always possible. We imagine increasingly complicated patches.
+
+For simplicity, we can take the odds table to be the default complete and proper representation of chance. So, instead of calculating the odds table in terms of other structures, we can start and end every problem with an odds table. The proper specification of the problem is an odds table; the proper specification of the solution is an odds table.
+
+### Objects in Geometry
+
+Similarly, if h is a line-segment then h/h=1. It does not matter what value if any we assign to the line-segment. Crucially, we do not divide some property of the line-segment, like length. We divide the line-segments.
+
+Consider f(x)=x^2. We write the difference quotient (f(x+h)-f(x))/h = ((x+h)^2-x^2)/h = (x^2+2xh+h^2-x^2)/h = (2xh+h^2)/h . The concern is that if h is 0, then we cannot take the next step 2x+h. However, h need not be 0. h can be a line-segment. If h is a line-segment we can self divide it and get 1. We can get (2xh+h^2)/h = 2x+h . This is true independent of any fact about any property of h; this is independent of the weight, length, or cost of h. Length((f(x+h)-f(x))/h) = Length((2xh+h^2)/h) = Length(2x+h) = Length(2x) = 2 * Length(x) .
 
 ## Constraints vs. Generics
 

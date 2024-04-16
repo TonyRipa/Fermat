@@ -1,7 +1,7 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	2024.03.15
+	Date:	2024.04.15
 	Lisp:	A Constraint Solver
 */
 
@@ -63,15 +63,29 @@ class Lisp {
 				if (left==1 && right==1) return 0/0
 			}
 		}
+		if (math.simplify('('+left+')') == 0 && math.simplify('('+right+')') == 0 && op == '/') return 0/0	//	+2024.4
 		return math.simplify('(' + left + ')' + op + '(' + right + ')')
 	}
 
-	static solve(lisp, symboltable) {
+	static solve(infix, symboltable) {	//	+2024.4
+		return Lisp.solvelisp(Lisp.strto(infix), symboltable)
+	}
+
+	static maketable() {	//	+2024.4
+		let symboltable = {}
+		for (let symbol of 'abcdefghijklmnopqrstuvwxyz') {
+			symboltable[symbol] = 'Generic'
+			symboltable[symbol.toUpperCase()] = 'Any'
+		}
+		return symboltable
+	}
+
+	static solvelisp(lisp, symboltable = Lisp.maketable()) {	//	+2024.4
 		console.log(lisp,symboltable)
 		if (type(lisp) != 'OperatorNode') return lisp
 		if (op(lisp) != '=') return math.simplify(Lisp.toinfix(lisp)).toString()
 		let [l,r] = args(lisp)
-		if (ground(l) && !ground(r)) return Lisp.solve(['=',r,l], symboltable)
+		if (ground(l) && !ground(r)) return Lisp.solvelisp(['=',r,l], symboltable)
 		if (ground(l) &&  ground(r)) return (math.simplify(Lisp.toinfix(l)).toString() == math.simplify(Lisp.toinfix(r))).toString()
 		if ( isvar(l) &&  l==r) {	//	+2024.3
 			var myvar = l
@@ -86,7 +100,7 @@ class Lisp {
 		if (type(l)=='OperatorNode' && ground(r)) {
 			let anti = {'+': '-', '*': '/'}[op(l)]
 			let [L,R] = args(l)
-			if ( ground(L) && !ground(R)) return Lisp.solve(['=',[op(l),R,L],r], symboltable)
+			if ( ground(L) && !ground(R)) return Lisp.solvelisp(['=',[op(l),R,L],r], symboltable)
 			if (!ground(L) &&  ground(R)) {
 				var myvar = L
 				var mytype = symboltable[myvar]
@@ -99,7 +113,7 @@ class Lisp {
 				var ret = Lisp.simplify([anti, r, R], mytype)
 				var myvars = [R, L]
 			}
-			function reverse() { return Lisp.solve(['=',[op(l),R,L],r], symboltable) }	//	+2024.2
+			function reverse() { return Lisp.solvelisp(['=',[op(l),R,L],r], symboltable) }	//	+2024.2
 		}
 		if (ret == undefined) return Lisp.toinfix(lisp)
 		let set = solution_intersect_mytype(ret, mytype)

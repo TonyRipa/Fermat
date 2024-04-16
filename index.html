@@ -1,93 +1,50 @@
 
 <!--
-	Author:	Anthony John Ripa
-	Date:	2023.12.15
-	Fermat:	A Rule System for Constraints
+	Author: Anthony John Ripa
+	Date:	4/15/2024
+	Demo for Newton: An A.I. for Math
 -->
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>Fermat</title>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.2.0/math.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-		<script src="expression.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.1/math.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.6/underscore-min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.30.0/plotly.min.js"></script>
+		<script src="https://tonyripa.github.io/PlaceValue/digit.js"></script>
+		<script src="https://tonyripa.github.io/PlaceValue/rational.js"></script>
+		<script src="https://tonyripa.github.io/PlaceValue/complex.js"></script>
+		<script src="https://tonyripa.github.io/PlaceValue/rationalcomplex.js"></script>
+		<script src="https://tonyripa.github.io/PlaceValue/wholeplacevalue.js"></script>
+		<script src="https://tonyripa.github.io/PlaceValue/placevalueratio.js"></script>
+		<script src="https://tonyripa.github.io/PlaceValue/abstractpolynomial.js"></script>
+		<script src="https://tonyripa.github.io/PlaceValue/polynomial1.js"></script>
+		<script src="https://tonyripa.github.io/PlaceValue/polynomialratio1.js"></script>
+		<script src="newton.js"></script>
 		<script src="Lisp.js"></script>
+		<script src="plot.js"></script>
+		<script src="helper.js"></script>
+		<script src="stats.js"></script>
+		<script src="data.js"></script>
+		<script src="ui.js"></script>
 	</head>
 	<body>
 		<center>
 			<h1>Fermat</h1>
-			<span id="quantifiers"></span> <input id="in" value="X*0=1" oninput='parse()'>
-			<br><br>
-			<span id="vars"></span>
-			<br><br>
-			<span id="type"></span>
-			<br><br>
-			<span id="infix"></span> &nbsp; <button onclick="go()">Solve</button>
-			<br><br>
-			<div id="out"></div>
+			<select onchange='$("#netstr").val($(this).val())'>
+				<option>eqndata→input→solve</option>
+				<option>input,econdata→filter→plot</option>
+				<option>exprdata→input→trigpoly→polytrig</option>
+				<option>probdata→prob2oddstable</option>
+				<option>oddsdata→oddschain2oddstable</option>
+			</select>
+			<input id='netstr' value='eqndata→input→solve' size=30>
+			<button onclick='ui.makenet()'>Make Net</button><br>
+			<br>
+			<hr>
+			<div id='net'></div>
 		</center>
-		<script>
-			parse()
-			function getvars() { return Expression.getvars($("#in").val()) }
-			function parse() {
-				let vars = getvars()
-				$("#vars").html(JSON.stringify(vars))
-				settype(vars)
-			}
-			function go() {
-				let symboltable = getsymboltable()
-				console.log(symboltable)
-				let infix = $("#in").val()
-				let prefix = Lisp.strto(infix)
-				let output = Lisp.solve(prefix,symboltable)
-				$("#out").html(output)
-				let quants = quantifiers(symboltable)
-				$("#quantifiers").html(quants.join((quants[0].length>0?' |':'')+(quants[1].length>0?' ∀':'')))
-			}
-			function settype(vars) {
-				let html = ''
-				for (let myvar of vars) {
-					html += "<select onchange='go()'>"
-					html += "<optgroup label='Variable'>"
-					html += "<option>Any</option>"
-					html += "<option>IEEE754</option>"
-					html += "<option>Real</option>"
-					html += "<option>Boolean</option>"
-					html += "</optgroup>"
-					html += "<option>Generic</option>"
-					html += "</select>"						
-				}
-				$("#type").html(html)
-			}
-			function getarray(id) {
-				let ret = []
-				for (let tag of $(id).children()) {
-					if (tag.tagName=='SELECT') {
-						let options = [...tag.children].map(x => x.tagName=='OPTGROUP' ? [...x.children] : x).flat()
-						for (let option of options) {
-							if (option.selected) {
-								ret.push(option.value)
-							}
-						}						
-					} else {
-						ret.push(tag.innerHTML) 
-					}
-				}
-				return ret
-			}
-			function getsymboltable() {
-				let vars = getvars()
-				if (vars.length == 0) return {}
-				let types = getarray('#type')
-				return Object.fromEntries(math.transpose([vars,types]))
-			}
-			function quantifiers(symboltable) {
-				let ret = [[],[]]
-				for (const [key,val] of Object.entries(symboltable))
-					ret[(val=='Generic')?1:0].push(key)
-				return ret
-			}
-		</script>
 	</body>
 </html>
