@@ -1,13 +1,14 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	4/10/2024
+	Date:	5/15/2024
 	Helper:	A utility library
 */
 
 let log = console.log
 function show(x) { alert(JSON.stringify(x)) }
 function get_input(id) { return document.getElementById(id).value }
+function putval(id,val) { document.getElementById(id).value = val.replace(/\\n/g,'\n') }
 function set_div(id,val) { if (!Array.isArray(val)) val = [val]; document.getElementById(id).innerHTML = val.join('<br>') }
 function set_output(id,val) { if (!Array.isArray(val)) val = [val]; document.getElementById(id).innerHTML = val.join('<br>') }
 function set_textarea(id,val) { if (!Array.isArray(val)) val = [val]; document.getElementById(id).value = val.join('\n') }

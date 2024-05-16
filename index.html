@@ -1,8 +1,8 @@
 
 <!--
 	Author: Anthony John Ripa
-	Date:	4/15/2024
-	Demo for Newton: An A.I. for Math
+	Date:	5/15/2024
+	Demo for Fermat: A Rule System for Constraints
 -->
 
 <!DOCTYPE html>
@@ -10,18 +10,19 @@
 	<head>
 		<title>Fermat</title>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.1/math.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.2/math.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.6/underscore-min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.30.0/plotly.min.js"></script>
 		<script src="https://tonyripa.github.io/PlaceValue/digit.js"></script>
 		<script src="https://tonyripa.github.io/PlaceValue/rational.js"></script>
 		<script src="https://tonyripa.github.io/PlaceValue/complex.js"></script>
 		<script src="https://tonyripa.github.io/PlaceValue/rationalcomplex.js"></script>
-		<script src="https://tonyripa.github.io/PlaceValue/wholeplacevalue.js"></script>
+		<script src="wholeplacevalue.js"></script>
 		<script src="https://tonyripa.github.io/PlaceValue/placevalueratio.js"></script>
 		<script src="https://tonyripa.github.io/PlaceValue/abstractpolynomial.js"></script>
 		<script src="https://tonyripa.github.io/PlaceValue/polynomial1.js"></script>
 		<script src="https://tonyripa.github.io/PlaceValue/polynomialratio1.js"></script>
+		<script src="expression.js"></script>
 		<script src="newton.js"></script>
 		<script src="Lisp.js"></script>
 		<script src="plot.js"></script>
@@ -35,8 +36,12 @@
 			<h1>Fermat</h1>
 			<select onchange='$("#netstr").val($(this).val())'>
 				<option>eqndata→input→solve</option>
-				<option>input,econdata→filter→plot</option>
 				<option>exprdata→input→trigpoly→polytrig</option>
+				<option>exprdata→input→sample→regress</option>
+				<option>input,econdata→filter→plot</option>
+				<option>wagedata→inputbig→plot</option>
+				<option>symdata→plots</option>
+				<option>symdata→plot3</option>
 				<option>probdata→prob2oddstable</option>
 				<option>oddsdata→oddschain2oddstable</option>
 			</select>
