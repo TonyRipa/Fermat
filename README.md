@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2024.05.15
+Date:	2024.06.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -81,7 +81,7 @@ For simplicity, we can take the odds table to be the default complete and proper
 
 Similarly, if h is a line-segment then h/h=1. It does not matter what value if any we assign to the line-segment. Crucially, we do not divide some property of the line-segment, like length. We divide the line-segments.
 
-Consider f(x)=x^2. We write the difference quotient (f(x+h)-f(x))/h = ((x+h)^2-x^2)/h = (x^2+2xh+h^2-x^2)/h = (2xh+h^2)/h . The concern is that if h is 0, then we cannot take the next step 2x+h. However, h need not be 0. h can be a line-segment. If h is a line-segment we can self divide it and get 1. We can get (2xh+h^2)/h = 2x+h . This is true independent of any fact about any property of h; this is independent of the weight, length, or cost of h. Length((f(x+h)-f(x))/h) = Length((2xh+h^2)/h) = Length(2x+h) = Length(2x) = 2 * Length(x) .
+Consider f(x)=x^2. We write the difference quotient (f(x+h)-f(x))/h = ((x+h)^2-x^2)/h = (x^2+2xh+h^2-x^2)/h = (2xh+h^2)/h . The concern is that if h is 0, then we cannot take the next step 2x+h. However, h need not be 0. h can be a line-segment. If h is a line-segment we can self divide it and get 1. We can get (2xh+h^2)/h = 2x+h . This is true independent of any fact about any property of h; this is independent of the weight, length, or cost of h. Length((f(x+h)-f(x))/h) = Length((2xh+h^2)/h) = Length(2x+h) = Length(2x) + Length(h) = Length(2x) = 2 * Length(x) .
 
 ## Generics
 
