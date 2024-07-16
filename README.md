@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2024.06.15
+Date:	2024.07.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -96,6 +96,18 @@ We return to x/x. For generics we think we can safely replace x/x with 1. Constr
 For generic semantics is seemed that x/x=1. This may have taken some convincing because constraint semantics suggested there's a hole. However, we never seemed to question x-x=0. This seemed obviously true because constraint semantics had allowed it. However, cautious constraint semantics does not allow it. This suggests that for generics x/x=1 is as safe as x-x=0. For generic semantics we did not ground the semantics in imagined substitutions but on generic quantities. For example x/x is 1 because how many x's per x are there? The answer is 1. Similarly, for x-x=0.
 
 In conclusion, x/x=1 is as true as x-x=0. Also X/X=1 is as true as X-X=0. Objections that emerge from considerations of real numbers are special cases (much like the theorems in real-analysis when compared with complex-analysis). Intuitions about what x/x should be given what X/X should be, when only thinking about reals, are unreliable domain specific intuitions that are half oversafe and half undersafe. Traditional methods have a trade-off profile that has been largely overlooked, likely because it was not fully explored. Fully understanding that trade-off can inform the practitioner as to what approach is more desirable and when. An alternate approach is splitting into 2 semantics: 1) Generic semantics where x/x=1 and x-x=0 can guarantee safety 2) Constraint semantics where neither X/X=1 nor X-X=0 can guarantee safety. If problems can be well-modularized into the different semantics, then it would appear that it may be a good choice to apply the appropriate semantics in the appropriate place, instead of trying a one-size-fits-all, especially when it becomes clear that the one-size-fits-all is not so good a fit.
+
+## Reference
+
+Another possible characterization of variables vs generics, is variables vs references. 
+
+Kit Fine’s 2023 ‘Refining Russell’ states “ ‘x²’ is to be interpreted classically in the first case (‘dx²/dx = 2x’) and generically in the second case (‘x² is non-negative’). ” We think Fine’s ‘classically’ is like our generic, while Fine’s ‘generically’ is like our variable.
+
+Fine offers "hatting an expression would be a device for securing reference to the sense of the un-hatted expression ... for example, to write ‘dx²/dx’ as ‘dx̂²/dx’".
+
+Fine’s approach shifts the question from questions about the nature of variables of different sorts, to the question of references of different sorts (direct vs. indirect).  For example, in c, we may write int x = 0.  Thereafter, x/x would yield NaN (i.e. 0/0 yields Not a Number).  However, if we use the reference operator &, &x/&x would yield 1.  Furthermore, none of this is contingent on x being a variable.  In c, if our declaration is const int x = 0 , then we still have x/x yields NaN and &x/&x yields 1.
+
+If Fine’s distinction is relevant, then what we desire is not a proper calculus for the domain objects (variable or otherwise) but a proper calculus of references (a pointer arithmetic).
 
 ## Dependency
 

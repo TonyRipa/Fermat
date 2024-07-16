@@ -1,7 +1,7 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	6/15/2024
+	Date:	7/10/2024
 	UI:	A user interface library
 */
 
@@ -73,6 +73,8 @@ class ui {
 	}
 
 	static make(ids,id) {
+		if (id.startsWith('datas.')) return ui.makeselect(ids,id,Data.get(id))
+		if (id.startsWith('data.')) return ui.makeinputbig(ids,id,Data.get(id))
 		switch(id) {
 			case 'input': return ui.makeinput(ids,id)
 			case 'inputbig': return ui.makeinputbig(ids,id)
@@ -81,6 +83,7 @@ class ui {
 			case 'plot2': return ui.makeplot2(ids,id)
 			case 'plot23': return ui.makeplot23(ids,id)
 			case 'plot2layer': return ui.makeplot2layer(ids,id)
+			case 'cause': return ui.makecause(ids,id)
 			case 'plots': return ui.makeplots(ids,id)
 			case 'trigpoly': return ui.makef(ids,id,Newton.trig2poly)
 			case 'polytrig': return ui.makef(ids,id,Newton.poly2trig)
@@ -93,18 +96,6 @@ class ui {
 			case 'oddschain2oddstable': return ui.makeoddschain2oddstable(ids,id)
 			case 'sample': return ui.makef(ids,id,Newton.sample)
 			case 'regress': return ui.makef(ids,id,Newton.regress)
-			case 'probdata': return ui.makeinput(ids,id,Data.prob())
-			case 'oddsdata': return ui.makeinput(ids,id,Data.odds())
-			case 'econdata': return ui.makeinputbig(ids,id,Data.econ())
-			case 'econ0data': return ui.makeinputbig(ids,id,Data.econ0())
-			case 'exprdata': return ui.makeselect(ids,id,Data.expr())
-			case 'eqndata': return ui.makeselect(ids,id,Data.eqn())
-			case 'symdata': return ui.makeselect(ids,id,Data.sym())
-			case 'wagedata': return ui.makeinputbig(ids,id,Data.wage())
-			case 'agedata': return ui.makeinputbig(ids,id,Data.age())
-			case 'hiredata': return ui.makeinputbig(ids,id,Data.hire())
-			case 'killdata': return ui.makeinputbig(ids,id,Data.kill())
-			case 'gapdata': return ui.makeinputbig(ids,id,Data.gap())
 		}
 		alert(`ui.make() : id ${id} not found`)
 	}
@@ -179,14 +170,12 @@ class ui {
 		let {par,kid} = ui.me2parkid(ids,me)
 		$('#net').append(`<div id='${me}' style='border:thin solid black;width:100px;height:50px;color:#999'>${me}</div>`)
 		return () => {
-			let results = id2array(par,',').map(row=>[row.slice(0,row.length-1),row.slice(-1)[0]])
-			if (Array.isArray(results)) {
-				$('#'+me).empty()
-				$('#'+me).removeAttr('style')
-				if (results[0][0].length==1) Plot.factory(results).plot1 (me)
-				if (results[0][0].length==2) Plot.factory(results).table2(me)
-				if (results[0][0].length==3) Plot.factory(results).table3(me)
-			}			
+			let frame = Frame.fromString(get_input(par))
+			$('#'+me).empty()
+			$('#'+me).removeAttr('style')
+			if (frame.numcols()==2) Plot.fromFrame(frame).plot1 (me)
+			if (frame.numcols()==3) Plot.fromFrame(frame).table2(me)
+			if (frame.numcols()==4) Plot.fromFrame(frame).table3(me)
 		}
 	}
 
@@ -194,18 +183,15 @@ class ui {
 		let {par,kid} = ui.me2parkid(ids,me)
 		$('#net').append(`<div id='${me}' style='border:thin solid black;width:100px;height:50px;color:#999'>${me}</div>`)
 		return () => {
-			let results = id2array(par,',').map(row=>[row.slice(0,row.length-1),row.slice(-1)[0]])
-			let results1 = results.map(row=>[[row[0][0]],row[1]])
-			let results2 = results.map(row=>[[row[0][1]],row[1]])
-			console.log(results)
-			console.log(results1)
-			console.log(results2)
-			if (Array.isArray(results)) {
+			let frame = Frame.fromString(get_input(par))
+			let frame1 = frame.copy().removecol(1)
+			let frame2 = frame.copy().removecol(0)
+			if (frame.numcols() >= 3) {
 				$('#'+me).empty()
 				$('#'+me).removeAttr('style')
 				$('#'+me).append(`<table><tr><td id='${me}1' width='500px'></td><td id='${me}2' width='500px'></td></tr></table>`)
-				Plot.factory(results1).plot1(me+1)
-				Plot.factory(results2).plot1(me+2)
+				Plot.fromFrame(frame1).plot1(me+1)
+				Plot.fromFrame(frame2).plot1(me+2)
 			}			
 		}
 	}
@@ -214,16 +200,16 @@ class ui {
 		let {par,kid} = ui.me2parkid(ids,me)
 		$('#net').append(`<div id='${me}' style='border:thin solid black;width:100px;height:50px;color:#999'>${me}</div>`)
 		return () => {
-			let results = id2array(par,',').map(row=>[row.slice(0,row.length-1),row.slice(-1)[0]])
-			let results1 = results.map(row=>[[row[0][0]],row[1]])
-			let results2 = results.map(row=>[[row[0][1]],row[1]])
-			if (Array.isArray(results)) {
+			let frame = Frame.fromString(get_input(par))
+			let frame1 = frame.copy().removecol(1)
+			let frame2 = frame.copy().removecol(0)
+			if (frame.numcols() >= 3) {
 				$('#'+me).empty()
 				$('#'+me).removeAttr('style')
 				$('#'+me).append(`<table><tr><td id='${me}1' width='500px'></td><td id='${me}2' width='500px'></td><td id='${me}3' width='500px'></td></tr></table>`)
-				Plot.factory(results1).plot1(me+1)
-				Plot.factory(results ).plot2(me+2)
-				Plot.factory(results2).plot1(me+3)
+				Plot.fromFrame(frame1).plot1(me+1)
+				Plot.fromFrame(frame ).plot2(me+2)
+				Plot.fromFrame(frame2).plot1(me+3)
 			}			
 		}
 	}
@@ -232,16 +218,16 @@ class ui {
 		let {par,kid} = ui.me2parkid(ids,me)
 		$('#net').append(`<div id='${me}' style='border:thin solid black;width:100px;height:50px;color:#999'>${me}</div>`)
 		return () => {
-			let results = id2array(par,',').map(row=>[row.slice(0,row.length-1),row.slice(-1)[0]])
-			let results1 = results.map(row=>[[row[0][0]],row[1]])
-			let results2 = results.map(row=>[[row[0][1]],row[1]])
-			if (Array.isArray(results)) {
+			let frame = Frame.fromString(get_input(par))
+			let frame1 = frame.copy().removecol(1)
+			let frame2 = frame.copy().removecol(0)
+			if (frame.numcols() >= 3) {
 				$('#'+me).empty()
 				$('#'+me).removeAttr('style')
 				$('#'+me).append(`<table><tr><td id='${me}1' width='500px'></td><td id='${me}2' width='500px'></td><td id='${me}3' width='500px'></td></tr></table>`)
-				Plot.factory(results1).plot1(me+1)
-				Plot.factory(results ).plot23(me+2)
-				Plot.factory(results2).plot1(me+3)
+				Plot.fromFrame(frame1).plot1 (me+1)
+				Plot.fromFrame(frame ).plot23(me+2)
+				Plot.fromFrame(frame2).plot1 (me+3)
 			}			
 		}
 	}
@@ -250,17 +236,23 @@ class ui {
 		let {par,kid} = ui.me2parkid(ids,me)
 		$('#net').append(`<div id='${me}' style='border:thin solid black;width:100px;height:50px;color:#999'>${me}</div>`)
 		return () => {
-			let results = id2array(par,',').map(row=>[row.slice(0,row.length-1),row.slice(-1)[0]])
-			let results1 = results.map(row=>[[row[0][0]],row[1]])
-			let results2 = results.map(row=>[[row[0][1]],row[1]])
-			if (Array.isArray(results)) {
-				$('#'+me).empty()
-				$('#'+me).removeAttr('style')
-				$('#'+me).append(`<table><tr><td id='${me}1' width='500px'></td><td id='${me}2' width='500px'></td><td id='${me}3' width='500px'></td></tr></table>`)
-				// Plot.factory(results1).plot1(me+1)
-				Plot.factory(results ).plot2layer(me+2)
-				// Plot.factory(results2).plot1(me+3)
-			}			
+			$('#'+me).empty()
+			$('#'+me).removeAttr('style')
+			$('#'+me).append(`<table><tr><td id='${me}1' width='500px'></td><td id='${me}2' width='500px'></td><td id='${me}3' width='500px'></td></tr></table>`)
+			Plot.fromString(get_input(par)).plot2layer(me+2)
+		}
+	}
+
+	static makecause(ids,me) {
+		let {par,kid} = ui.me2parkid(ids,me)
+		$('#net').append(`<textarea id='${me}' cols='50' rows='7' placeholder='${me}'></textarea>`)
+		return ()=>{
+			let csv = get_input(par)
+			let model = new Model(Frame.fromString(csv))
+			let middle = model.get_control_name()
+			let ends = model.get_noncontrol_names()
+			let graph = ends[0] + '-' + middle + '-' + ends[1]
+			set_textarea(me,graph)
 		}
 	}
 
