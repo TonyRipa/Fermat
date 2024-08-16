@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2024.07.15
+Date:	2024.08.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -96,6 +96,16 @@ We return to x/x. For generics we think we can safely replace x/x with 1. Constr
 For generic semantics is seemed that x/x=1. This may have taken some convincing because constraint semantics suggested there's a hole. However, we never seemed to question x-x=0. This seemed obviously true because constraint semantics had allowed it. However, cautious constraint semantics does not allow it. This suggests that for generics x/x=1 is as safe as x-x=0. For generic semantics we did not ground the semantics in imagined substitutions but on generic quantities. For example x/x is 1 because how many x's per x are there? The answer is 1. Similarly, for x-x=0.
 
 In conclusion, x/x=1 is as true as x-x=0. Also X/X=1 is as true as X-X=0. Objections that emerge from considerations of real numbers are special cases (much like the theorems in real-analysis when compared with complex-analysis). Intuitions about what x/x should be given what X/X should be, when only thinking about reals, are unreliable domain specific intuitions that are half oversafe and half undersafe. Traditional methods have a trade-off profile that has been largely overlooked, likely because it was not fully explored. Fully understanding that trade-off can inform the practitioner as to what approach is more desirable and when. An alternate approach is splitting into 2 semantics: 1) Generic semantics where x/x=1 and x-x=0 can guarantee safety 2) Constraint semantics where neither X/X=1 nor X-X=0 can guarantee safety. If problems can be well-modularized into the different semantics, then it would appear that it may be a good choice to apply the appropriate semantics in the appropriate place, instead of trying a one-size-fits-all, especially when it becomes clear that the one-size-fits-all is not so good a fit.
+
+## Variables as Wires
+
+Variables appear to be a natural response to a resource poor language. We may ask: what is 2+3. The answer may be 5. What if I know the sum is 5, and the augend is 2, and I want to know the addend (and I lack the words sum, augend, and addend)? I could modify the language with a new operator – and ask: what is 5-2. This can and did happen. The general problem of resource poor languages also created the variable, so that one could solve innumerable ad-hoc problems without bloating the language. Just add a templating scheme to a resource poor language. Instead of relying on the invention of the – operator, I can just ask: what is x such that 2+x=5. Since 2+3=5 exists and is true in the resource poor language, I was able to use meta symbols like x to express what I could not in the base language.
+
+The question of whether there is an alternative approach to templating schemes (variables) seems to have been answered in the affirmative. Lambda Calculus which uses variables, is computationally complete according to the Church-Turing Thesis. The computationally equivalent Combinator Calculus was specifically invented to be equi-powerful and variable-free.
+
+Other approaches to avoiding variables, note that language’s linear-encoding incentivizes upgrading via templating (variables). Graphical programming languages (like circuit diagrams) appear to have no need for variables. I may have an Addition element with two edges specified, as in 2+3. Rewiring, I can specify the sum, and the augend. This is natural in a 2-dimensional language. A linear language would beg for a new operator, or a templating scheme. Similarly, x such that x²-5x+6=0 is typically specified in a linear language with a templating scheme (variable), like in the beginning of this sentence. Alternatively, we could have upgraded the linear language with a new operator that works for quadratics; this approach is not popular. With a 2-D language, careful wiring of some addition and multiplication elements would yield the same effect.
+
+At this point it should be clear, from Combinator Calculus alone, that variables are not needed. If used, though not needed, variables should be used with care, because they are extremely easy to confuse with symbols in the base language. It is advisable to get a good handle on the base language, before ever introducing a templating scheme.
 
 ## Reference
 

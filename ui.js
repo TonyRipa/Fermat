@@ -1,7 +1,7 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	7/10/2024
+	Date:	8/15/2024
 	UI:	A user interface library
 */
 
@@ -57,11 +57,11 @@ class ui {
 			for (let i = 0 ; i < ids.length ; i++) {
 				if (i != 0) {
 					if (par[ids[i]] == undefined) par[ids[i]] = [ids[i-1]]
-					else {par[ids[i]].push([ids[i-1]])}
+					else par[ids[i]].push(ids[i-1])
 				}
 				if (i != ids.length-1) {
 					if (kid[ids[i]] == undefined) kid[ids[i]] = [ids[i+1]]
-					else kid[ids[i]].push([ids[i-1]])
+					else kid[ids[i]].push(ids[i+1])
 				}
 			}
 		}
@@ -79,6 +79,7 @@ class ui {
 			case 'input': return ui.makeinput(ids,id)
 			case 'inputbig': return ui.makeinputbig(ids,id)
 			case 'filter': return ui.makefilter(ids,id)
+			case 'where': return ui.makewhere(ids,id)
 			case 'plot': return ui.makeplot(ids,id)
 			case 'plot2': return ui.makeplot2(ids,id)
 			case 'plot23': return ui.makeplot23(ids,id)
@@ -96,6 +97,8 @@ class ui {
 			case 'oddschain2oddstable': return ui.makeoddschain2oddstable(ids,id)
 			case 'sample': return ui.makef(ids,id,Newton.sample)
 			case 'regress': return ui.makef(ids,id,Newton.regress)
+			case 'laplace': return ui.makef(ids,id,Newton.laplace)
+			case 'network': return ui.makenetwork(ids,id)
 		}
 		alert(`ui.make() : id ${id} not found`)
 	}
@@ -133,6 +136,12 @@ class ui {
 		let {par,kid} = ui.me2parkid(ids,me)
 		$('#net').append(`<textarea id='${me}' cols='50' rows='7' placeholder='${me}'></textarea>`)
 		return ()=>set_textarea(me,Stats.p(get_input(par.split(',')[0]),id2array(par.split(',')[1])))
+	}
+
+	static makewhere(ids,me) {
+		let {par,kid} = ui.me2parkid(ids,me)
+		$('#net').append(`<textarea id='${me}' cols='150' rows='7' placeholder='${me}'></textarea>`)
+		return ()=>set_textarea(me,Frame.fromstr(get_input(par.split(',')[1])).where(get_input(par.split(',')[0])))
 	}
 
 	static makeoddschain2oddstable(ids,me) {
@@ -177,6 +186,12 @@ class ui {
 			if (frame.numcols()==3) Plot.fromFrame(frame).table2(me)
 			if (frame.numcols()==4) Plot.fromFrame(frame).table3(me)
 		}
+	}
+
+	static makenetwork(ids,me) {
+		let {par,kid} = ui.me2parkid(ids,me)
+		$('#net').append(`<div id='${me}' style='border:thin solid black;width:640px;height:400px;color:#999'>${me}</div>`)
+		return () => Plot.plotnetwork(me,get_input(par))
 	}
 
 	static makeplots(ids,me) {
@@ -238,7 +253,7 @@ class ui {
 		return () => {
 			$('#'+me).empty()
 			$('#'+me).removeAttr('style')
-			$('#'+me).append(`<table><tr><td id='${me}1' width='500px'></td><td id='${me}2' width='500px'></td><td id='${me}3' width='500px'></td></tr></table>`)
+			$('#'+me).append(`<table><tr><td id='${me}2' width='500px'></td></tr></table>`)
 			Plot.fromString(get_input(par)).plot2layer(me+2)
 		}
 	}
