@@ -1,7 +1,7 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	8/15/2024
+	Date:	9/15/2024
 	Plot:	A plotting library
 */
 
@@ -317,6 +317,11 @@ class Plot {
 	}
 
 	static plotnetwork(id,expression) {
+		Plot.json2net(id,Plot.eq2json(expression))
+	}
+
+	static json2net(id,json) {
+		if (math.typeOf(json) == "string") json = JSON.parse(json)
 		if (!window.godiagram) {
 			window.godiagram = new go.Diagram(id)
 			window.godiagram.layout = new go.LayeredDigraphLayout(id)
@@ -343,10 +348,10 @@ class Plot {
 					)
 			}
 		}
-		window.godiagram.model = new go.GraphLinksModel(Plot.networkhelp(expression))
+		window.godiagram.model = new go.GraphLinksModel(json)
 	}
 
-	static networkhelp(data) {
+	static eq2json(data) {
 		let lisp = Lisp.strto(data)
 		let nodelinks = lisp2nodelinks(lisp)
 		log(nodelinks)
@@ -378,6 +383,37 @@ class Plot {
 						return {nodes, links, key}
 				}
 			}
+		}
+	}
+
+	static json2eq(json) {
+		if (math.typeOf(json) == "string") json = JSON.parse(json)
+		let nodes = json.nodeDataArray
+		let links = json.linkDataArray
+		let rootkey = "1"
+		return infix(rootkey)
+		function infix(key) {
+			let name = getname(key)
+			let kids = getkids(key)
+			if (kids.length == 0) return name
+			let op = name
+			let lop = getname(kids[0])
+			let rop = getname(kids[1])
+			let left = infix(kids[0])
+			let right = infix(kids[1])
+			if (name == '*' && lop == '+') left =  '(' + left  + ')'
+			if (name == '*' && rop == '+') right = '(' + right + ')'
+			return left + op + right
+		}
+		function getname(key) {
+			for (let node of nodes)
+				if (node.key == key) return node.name === '' ? node.key : node.name
+		}
+		function getkids(key) {
+			let kids = []
+			for (let link of links)
+				if (link.to == key) kids.push(link.from)
+			return kids
 		}
 	}
 

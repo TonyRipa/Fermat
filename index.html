@@ -1,7 +1,7 @@
 
 <!--
 	Author: Anthony John Ripa
-	Date:	8/15/2024
+	Date:	9/15/2024
 	Demo for Fermat: A Rule System for Constraints
 -->
 
@@ -19,9 +19,9 @@
 		<script src="https://tonyripa.github.io/PlaceValue/rational.js"></script>
 		<script src="complex.js"></script>
 		<script src="https://tonyripa.github.io/PlaceValue/rationalcomplex.js"></script>
-		<script src="https://tonyripa.github.io/PlaceValue/wholeplacevalue.js"></script>
-		<script src="placevalueratio.js"></script>
-		<script src="abstractpolynomial.js"></script>
+		<script src="wholeplacevalue.js"></script>
+		<script src="https://tonyripa.github.io/PlaceValue/placevalueratio.js"></script>
+		<script src="https://tonyripa.github.io/PlaceValue/abstractpolynomial.js"></script>
 		<script src="laplacering.js"></script>
 		<script src="https://tonyripa.github.io/PlaceValue/polynomial1.js"></script>
 		<script src="https://tonyripa.github.io/PlaceValue/polynomialratio1.js"></script>
@@ -42,7 +42,8 @@
 			<select onchange='$("#netstr").val($(this).val())'>
 				<optgroup label='Algebra'>
 					<option>datas.eqn→input→network;input→solve</option>
-					<option>datas.expr→input→laplace</option>
+					<option>datas.eqn→input→eq2json→json2net;input→solve</option>
+					<option>datas.expr→input→laplace→invlaplace</option>
 					<option>datas.expr→input→iegf→egf</option>
 					<option>datas.expr→input→trigpoly→polytrig</option>
 					<option>datas.expr→input→sample→regress</option>
@@ -86,7 +87,7 @@
 					<option>data.odds→oddschain2oddstable</option>
 				</optgroup>
 			</select>
-			<input id='netstr' value='datas.eqn→input→network;input→solve' size=30>
+			<input id='netstr' value='datas.eqn→input→network;input→solve' size=40>
 			<button onclick='ui.makenet()'>Make Net</button><br>
 			<br>
 			<hr>
