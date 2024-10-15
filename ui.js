@@ -1,7 +1,7 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	9/15/2024
+	Date:	10/15/2024
 	UI:	A user interface library
 */
 
@@ -17,7 +17,9 @@ class ui {
 			fs.push(...ui.makes(dag,ids[i]))
 			ui.makebrs()
 		}
-		ui.makego(fs)
+		for (let i = ids.length-1 ; i >= 0 ; i--) {
+			ui.makego(ids[i-1],fs.slice(i))
+		}
 	}
 
 	static net2ids(str) {
@@ -81,6 +83,7 @@ class ui {
 			case 'filter': return ui.makefilter(ids,id)
 			case 'where': return ui.makewhere(ids,id)
 			case 'plot': return ui.makeplot(ids,id)
+			case 'plot1': return ui.makeplot1(ids,id)
 			case 'plot2': return ui.makeplot2(ids,id)
 			case 'plot23': return ui.makeplot23(ids,id)
 			case 'plot2layer': return ui.makeplot2layer(ids,id)
@@ -102,6 +105,7 @@ class ui {
 			case 'network': return ui.makenetwork(ids,id)
 			case 'eq2json': return ui.makef(ids,id,x=>JSON.stringify(Plot.eq2json(x),null,2))
 			case 'json2net': return ui.makejson2net(ids,id,Plot.plotjson)
+			case 'net2json': return ui.makef(ids,id,Plot.net2json)
 			case 'json2eq': return ui.makef(ids,id,Plot.json2eq)
 			//case 'json2net': return ui.makejson2net(ids,id)
 		}
@@ -224,6 +228,18 @@ class ui {
 		}
 	}
 
+	static makeplot1(ids,me) {
+		let {par,kid} = ui.me2parkid(ids,me)
+		$('#net').append(`<div id='${me}' style='border:thin solid black;width:100px;height:50px;color:#999'>${me}</div>`)
+		return () => {
+			let frame = Frame.fromString(get_input(par))
+			$('#'+me).empty()
+			$('#'+me).removeAttr('style')
+			$('#'+me).append(`<table><tr><td id='${me}2' width='500px'></td></tr></table>`)
+			Plot.fromFrame(frame).plot1(me+'2')
+		}
+	}
+
 	static makeplot2(ids,me) {
 		let {par,kid} = ui.me2parkid(ids,me)
 		$('#net').append(`<div id='${me}' style='border:thin solid black;width:100px;height:50px;color:#999'>${me}</div>`)
@@ -290,9 +306,9 @@ class ui {
 		return ()=>$('#'+me).text(f($('#'+par).val()))
 	}
 
-	static makego(fs) {
+	static makego(id0,fs) {
 		let id = math.randomInt(1,9999)
-		$('#net').prepend(`<button id='${id}'>Go</button>`)
+		$(`<button id='${id}' style='display:block'>↓</button>`).insertAfter('#'+id0)
 		$('#'+id).on('click',()=>{fs.map(f=>f())})
 	}
 

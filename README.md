@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2024.09.15
+Date:	2024.10.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -271,6 +271,8 @@ This is like 2/3 = 2/3. It is a bit like a fractal because it invites repetition
 As something of an aside, in one of our other notations, this would be notated as the irreducible expression x@x\*x=-1 . Alternatively, we could use the previous r notation like r( x , x\*x ,  , -1 ) .
 
 In conclusion, much of this entire work has been about avoiding unnecessary new syntax. We can do the same thing again here, by returning irreducible expressions, as the answer to any posed question.
+
+However, this idea of irreducible expressions is not without its drawbacks. These irreducible expressions appear to be irreducible constraints. It may be the case that irreducible constraints do not fully specify a solution. For example, r( x , x\*x ,  , -1 ) may not fully specify i; it may also specify -i. If obliterating the distinction (between i and -i) is good, then this approach is good; otherwise, it's not good. We may also note that r( x , x\*x ,  , -1 ) might also specify the quaternion j which is distinct from the quaternion i. It may be that irreducible constraints are not sufficient for our purposes (specifying everything that we ought to specify).
 
 ## Quantifiers
 
