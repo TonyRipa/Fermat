@@ -1,14 +1,14 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	10/15/2024
+	Date:	11/15/2024
 	Data:	A data library
 */
 
 class Data {
 
 	static get(x) {
-		let [prefix,suffix] = x.split('.')
+		let [prefix,suffix] = x.split('_')
 		return Data[suffix]()
 	}
 
