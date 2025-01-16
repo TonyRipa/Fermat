@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2024.12.15
+Date:	2025.01.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -164,6 +164,8 @@ There are multiple ways to handle this complexity.  One way is the way that is n
 There is still the issue that the number of solutions depends on your assumptions about possible solutions.  x\*x=1 has one solution in whole numbers and two solutions in integers.  x\*x=-1 has two solutions in complex, and none in integer.  When we don't know how many times to return, this seems to clearly rule out returning more than once, or returning a set.  Returning an expression still seems possible.  The expression m|m\*m=9 can simplify to m|(m-3)\*(m+3)=0.  When using whole numbers there is one solution, and with integers two.  Though by writing m|(m-3)\*(m+3)=0 we seem to imply that there are two.  Consider x|x\*x=-9.  We could simplify to x|(x-3i)\*(x+3i)=0 .  Though this seems to force the user to use complex numbers.  We could return x|(x-3(a|a\*a=-1))\*(x+3(a|a\*a=-1))=0 .  That is correct for reals and complex.  Though it looks bizarre for people not using complex.  Furthermore, x|x^9-x=0 may necessitate quaternions (or worse yet no quaternions but expressions that would generate them [like the formula with no i but instead a|a\*a=-1]).  This seems to be getting out of hand.  This example x|x\*x=0 may require nilpotent numbers (or replace all nilpotent numbers with the expression that generates them).  One extreme would be just return x|x^9-x=0.  Another would be the most general (something without quaternion but with sub-expressions that generate them).  Another would be go for a mathematical habit like real or complex.  Mathematical habits lead to unwarranted assumptions.  The most general is another solution.  The lazy solution x|x^9-x=0 seems best.
 
 Furthermore, as was previously discussed, by focusing on Constraint Simplification instead of Constraint Satisfaction, we allow for a pipeline wherein the Generic Constraint Simplifier can act as a pre-processor whose results can be passed to some Domain-Specific (Integer, Real, Complex, etc.) Constraint Satisfier.
+
+This is reasonable provided that Constraint Simplification can actually be done domain-independently.
 
 ### ≠
 
