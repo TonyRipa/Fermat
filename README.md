@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2025.02.15
+Date:	2025.03.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -49,7 +49,7 @@ When we see a constant like x we are somehow conditioned to think of a number. H
 
 In Statistics, we often see Odds(Event1:Event2). Event1 is not a variable. Event1 is a constant. Event1 is an event. The same is true for Event2. Odds(Event1:Event2) means the odds of Event1 to Event2. Or how much more likely is Event1 than Event2. The events are not numbers. The Odds(Event1:Event2) may be a number. Consider Odds(E1:E1). How much more likely is E1 than E1. They are just as likely. We may write 1:1 or 1/1 or 1. Note that this is true no matter how likely we label E1 to be. This is crucial because the relative chance does not depend on any absolute chance. Crucially, it is even true if we think there is no chance of E1. Odds(E1:E1) is 1 even if E1 = "Going faster than the speed of light" or something else we think impossible. This is not because E1 has a small non-zero chance. It is because the relative chance of any event to itself is 1. There is no division by zero. We do not compare the numbers. We compare the events. If E2 is "Going faster than the speed of light on a weekend" Odds (E2:E1) = 2:7 or 2/7. Not because either is possible or non-zero. We do not divide numbers. We compare events directly.
 
-Consider 4 events E1,E2,E3,E4. These events may correspond to a discrete probability distribution [.5,.5,0,0] . We may be interested in calculating all the pairwise odds; this concept seems obvious but is not easy too find in literature; we call it an odds table. We may try to use the discrete probability distribution to calculate the odds table. Here goes:
+Consider 4 events E1,E2,E3,E4. These events may correspond to a discrete probability distribution [.5,.5,0,0] . We may be interested in calculating all the pairwise odds; this concept seems obvious but is not easy to find in literature; we call it an odds table. We may try to use the discrete probability distribution to calculate the odds table. Here goes:
 
 <table border>
 	<tr><th>Odds</th><th>E1</th><th>E2</th><th>E3</th><th>E4</th></tr>
