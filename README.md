@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2025.05.15
+Date:	2025.06.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -17,7 +17,7 @@ This project <code>Fermat</code> is an extension of a previous work <code>Leibni
 
 So, there are 2 competing semantics. The traditional constraint semantics x/x = 1 if x≠0 else %. And the generic semantics x/x=1. What about problems that intermix these semantics? Like (2x+h) * h = h * m. We are tempted to divide both sides by h, to get 2x+h=m, but constraint semantics disallows this. What to do?
 
-<code>Fermat</code> is a rule-system that correctly deals with both semantics, even when mixed. We simply need to annotate the type, so that we never mix up the semantics. Prolog already already has this concept that capitals like X are unknown, and lowercase like x are atoms. We notate as (2x+h) * h = h * M. Dividing both sides by h is safe. <code>Fermat</code> yields 2x+h=M.
+<code>Fermat</code> is a rule-system that correctly deals with both semantics, even when mixed. We simply need to annotate the type, so that we never mix up the semantics. Prolog already has this concept that capitals like X are unknown, and lowercase like x are atoms. We notate as (2x+h) * h = h * M. Dividing both sides by h is safe. <code>Fermat</code> yields 2x+h=M.
 
 In retrospect, it is simple. For example, i * i = 1 seems to be unintelligible. However, mathematicians may write it as i * <i>i</i> = 1 .  Now it is more clear: <i>i</i> represents the square-root of -1. Whereas, i is something that we can solve for. The solution is i = -<i>i</i> .
 
