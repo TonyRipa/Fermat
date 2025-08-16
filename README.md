@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2025.07.15
+Date:	2025.08.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -165,7 +165,7 @@ There is still the issue that the number of solutions depends on your assumption
 
 Furthermore, as was previously discussed, by focusing on Constraint Simplification instead of Constraint Satisfaction, we allow for a pipeline wherein the Generic Constraint Simplifier can act as a pre-processor whose results can be passed to some Domain-Specific (Integer, Real, Complex, etc.) Constraint Satisfier.
 
-This is reasonable provided that Constraint Simplification can actually be done domain-independently.
+This is reasonable provided that Constraint Simplification can actually be done domain-independently. Unfortunately, the constraint simplification rules seem to be so coupled to the domain, that specifying the domain fully specifies the constraint simplification rules. Likewise, specifying the constraint simplification rules specifies the possible domains, and with enough rules the possible domains shrink to uniqueness. So, instead of being independent, it seems like they are so perfectly dependent that only one need be specified: either the domain or the constraint simplification rules.
 
 ### ≠
 
