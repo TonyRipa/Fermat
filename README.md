@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2025.09.15
+Date:	2025.10.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -319,7 +319,3 @@ Now, that we have the slope of all secants m(h) = h+2 , we can plug any h in to 
 The analyst might say hold on. m(h)\*h = h\*(h+2) when h=0 reduces to m(0)\*0=0. This means m(0) could be anything, because anything times 0 is 0.
 
 So what the analyst is saying is that m(h) is (h+2) if h≠0 else 4. This is exactly the case we saw earlier when factoring x²-3x+2. Someone tried to violate the Fundamental Theorem of Algebra claiming (x-1)(x-2) is not the unique factorization of x²-3x+2 because another factor might be (x-1) if x≠5 else 3. We save the Fundamental Theorem of Algebra by disallowing such imaginative answers. The answers are allowed to be just imaginative enough to save the Fundamental Theorem of Algebra, not imaginative enough to destroy it. If we couldn't allow such imaginative solutions that would break the Fundamental Theorem of Algebra earlier, then we can't allow them now. Also, what is to be gained by disallowing such imaginative solutions earlier but allowing them now. The only gain appears to be creating an exception to the Fundamental Theorem of Algebra so that algebra is insufficiently powerful to answers questions in calculus. What kind of gain is this? Create an exception to hobble a theory from giving the correct answer. That is a lose-lose. A lose-lose is worse than a win-win. By keeping the Fundamental Theorem of Algebra intact without exception, we can correctly answer questions that would otherwise require calculus.
-
-## Dependencies
-
-<a href='https://github.com/TonyRipa/Leibniz'>Leibniz</a>
