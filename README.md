@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2025.12.15
+Date:	2026.01.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -11,7 +11,7 @@ Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://
 
 This project <code>Fermat</code> is an extension of a previous work <code>Leibniz</code>.
 
-<code>Leibniz</code> is a mathematical expression simplifier. Both projects deal with the semantics of x/x. <code>Leibniz</code> uses a kind of [indeterminate](<https://en.wikipedia.org/wiki/Indeterminate_(variable)>) semantics where x/x=1. This allows algebra to solve problems in calculus like ((x+h)^2-x^2)/h@h=0 is (x^2+2xh+h^2-x^2)/h@h=0 is (2xh+h^2)/h@h=0 is 2x+h@h=0 is 2x. This was only possible because we allowed h/h to be replaced by 1. In other words, the graph h/h does not have a hole in it at h=0.
+<code>Leibniz</code> is a mathematical expression simplifier. Both projects deal with the semantics of x/x. <code>Leibniz</code> uses a kind of [indeterminate](<https://en.wikipedia.org/w/index.php?title=Indeterminate_(variable)&oldid=1285636526>) semantics where x/x=1. This allows algebra to solve problems in calculus like ((x+h)^2-x^2)/h@h=0 is (x^2+2xh+h^2-x^2)/h@h=0 is (2xh+h^2)/h@h=0 is 2x+h@h=0 is 2x. This was only possible because we allowed h/h to be replaced by 1. In other words, the graph h/h does not have a hole in it at h=0.
 
 <code>Leibniz</code> is good for simplifying expressions that do not involve an = sign (i.e. not constraints). How to handle constraints (like x=2x)? Naive extension of <code>Leibniz</code> may allow us to divide both sides by x, to get 1=2. This is sub-optimal. It seems that this semantics demands that x/x have a hole in it at x=0. In this logic we do not have x/x=1. We have x/x = 1 if x≠0 else %. Now, the only allowable transformation for this x=2x would be subtract x from both sides yielding 0=x. The right answer.
 

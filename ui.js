@@ -1,7 +1,7 @@
 
 /*
 	Author:	Anthony John Ripa
-	Date:	12/15/2025
+	Date:	1/15/2026
 	UI:	A user interface library
 */
 
@@ -96,10 +96,6 @@ class ui {
 		id0 = id0?.split(',').slice(-1)[0]
 		let id = math.randomInt(1,9999)
 		let arrows = ['','↓','↘ ↙'][numpars]
-		if (row.length == 2) {
-			let col = row.indexOf(id0)
-			arrows = ['↙','↘'][col]
-		}
 		$(`<button id='${id}' title='${arrows}\n${id0}'>${arrows}</button><br>`).insertBefore('#'+id0)
 		$('#'+id).on('click',()=>{fs.map(f=>f())})
 	}
@@ -170,7 +166,8 @@ class ui {
 				'elk.spacing.edgeNode': '16',
 				'elk.edgeRouting': 'POLYLINE',
 				'elk.layered.nodePlacement.strategy': 'NETWORK_SIMPLEX',
-				'elk.layered.wrapping.strategy': 'SINGLE_EDGE'
+				'elk.layered.wrapping.strategy': 'SINGLE_EDGE',
+				'elk.layered.considerModelOrder.strategy': 'NODES_AND_EDGES'
 			},
 			children,
 			edges
@@ -187,8 +184,18 @@ class ui {
 				maxX = Math.max(maxX, n.x + (n.width || id2size[n.id]?.w || 0))
 				maxY = Math.max(maxY, n.y + (n.height || id2size[n.id]?.h || 0))
 			}
-			// Ensure container is large enough to show everything
-			$net.css({ minWidth: Math.ceil(maxX + 40) + 'px', minHeight: Math.ceil(maxY + 40) + 'px' })
+
+			// Size #net to the layout bounding box so margin:auto can actually center it
+			const layoutW = Math.ceil(maxX + 40)
+			const layoutH = Math.ceil(maxY + 40)
+
+			// Make #net a centered "shrink-to-layout" box
+			$net.css({
+			  width: layoutW + 'px',
+			  minHeight: layoutH + 'px',
+			  marginLeft: 'auto',
+			  marginRight: 'auto'
+			})
 
 			// Draw routed edges from ELK sections
 			const svg = $(`<svg id='net-edges' style='position:absolute;top:0;left:0;width:${Math.ceil(maxX + 80)}px;height:${Math.ceil(maxY + 80)}px;pointer-events:none;overflow:visible'></svg>`)
