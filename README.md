@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2026.01.15
+Date:	2026.02.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -48,6 +48,29 @@ Variables appear to be a natural response to a resource poor language. We may as
 The question of whether there is an alternative approach to templating schemes (variables) seems to have been answered in the affirmative. Lambda Calculus which uses variables, is computationally complete according to the Church-Turing Thesis. The computationally equivalent Combinator Calculus was specifically invented to be equi-powerful and variable-free.
 
 Other approaches to avoiding variables, note that language’s linear-encoding incentivizes upgrading via templating (variables). Graphical programming languages (like circuit diagrams) appear to have no need for variables. I may have an Addition element with two edges specified, as in 2+3. Rewiring, I can specify the sum, and the augend. This is natural in a 2-dimensional language. A linear language would beg for a new operator, or a templating scheme. Similarly, x such that x²-5x+6=0 is typically specified in a linear language with a templating scheme (variable), like in the beginning of this sentence. Alternatively, we could have upgraded the linear language with a new operator that works for quadratics; this approach is not popular. With a 2-D language, careful wiring of some addition and multiplication elements would yield the same effect.
+
+<pre>
+                                                                ┌─────────╮
+                                                        2  ─────┤         │
+                       2+3=5                                    │    +    ├─────  5
+                                                        3  ─────┤         │
+                                                                └─────────╯
+                                                                ┌─────────╮
+                                                        2  ─────┤         │
+                       2+3=x                                    │    +    ├─────  
+                                                        3  ─────┤         │
+                                                                └─────────╯
+                                                                ┌─────────╮
+                                                        2  ─────┤         │
+                       2+x=5                                    │    +    ├─────  5
+                                                           ─────┤         │
+                                                                └─────────╯
+                                                                ┌─────────╮
+                                                           ─────┤         │
+                       x+3=5                                    │    +    ├─────  5
+                                                        3  ─────┤         │
+                                                                └─────────╯
+</pre>
 
 At this point it should be clear, from Combinator Calculus alone, that variables are not needed. If used, though not needed, variables should be used with care, because they are extremely easy to confuse with symbols in the base language. It is advisable to get a good handle on the base language, before ever introducing a templating scheme.
 
