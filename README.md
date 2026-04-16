@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2026.03.15
+Date:	2026.04.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -43,7 +43,7 @@ In conclusion, x/x=1 is as true as x-x=0. Also X/X=1 is as true as X-X=0. Object
 
 ### Variables as Wires
 
-Variables appear to be a natural response to a resource poor language. We may ask: what is 2+3. The answer may be 5. What if I know the sum is 5, and the augend is 2, and I want to know the addend (and I lack the words sum, augend, and addend)? I could modify the language with a new operator – and ask: what is 5-2. This can and did happen. The general problem of resource poor languages also created the variable, so that one could solve innumerable ad-hoc problems without bloating the language. Just add a templating scheme to a resource poor language. Instead of relying on the invention of the – operator, I can just ask: what is x such that 2+x=5. Since 2+3=5 exists and is true in the resource poor language, I was able to use meta symbols like x to express what I could not in the base language.
+Variables appear to be a natural response to a resource poor language. We may ask: what is 2+3. The answer may be 5. What if I know the sum is 5, and the augend is 2, and I want to know the addend (and I lack the words sum, augend, and addend)? I could modify the language with a new operator – and ask: what is 5-2. This can and did happen. The general problem of resource poor languages also created the variable, so that one could solve innumerable ad hoc problems without bloating the language. Just add a templating scheme to a resource poor language. Instead of relying on the invention of the – operator, I can just ask: what is x such that 2+x=5. Since 2+3=5 exists and is true in the resource poor language, I was able to use meta symbols like x to express what I could not in the base language.
 
 The question of whether there is an alternative approach to templating schemes (variables) seems to have been answered in the affirmative. Lambda Calculus which uses variables, is computationally complete according to the Church-Turing Thesis. The computationally equivalent Combinator Calculus was specifically invented to be equi-powerful and variable-free.
 
