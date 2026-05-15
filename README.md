@@ -3,11 +3,11 @@
 
 Author:	Anthony John Ripa
 
-Date:	2026.04.15
+Date:	2026.05.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
-## Overview & Motivation
+## 1. Overview & Motivation
 
 This project <code>Fermat</code> is an extension of a previous work <code>Leibniz</code>.
 
@@ -25,7 +25,7 @@ We simply have to be clear about the difference (and notate the difference) betw
 
 Alternatively, we may think of it as a hierarchy. Numbers are at the base of this hierarchy. Then a level up we have abstractions over numbers, which we wrote as lowercase x, and we called generics. Then a level up we have abstractions over generics, which we wrote as uppercase X.
 
-## Key Concepts
+## 2. Key Concepts
 
 ### Generics
 
@@ -90,11 +90,11 @@ If Fine’s distinction is relevant, then what we desire is not a proper calculu
 
 Constraints vs. Generics model 2 types. We may imagine multiple types based on dependencies. For example, we can have a dependency chain, y=x, where y is Any, and x is Real (or vice-versa). Alternatively, we can have a dependency chain, y=x, where y is Any, and x lacks dependence. In the latter case, x is like a generic. We might imagine all kinds of dependency chains, trees, loops, etc. which might otherwise be interpreted as many different kinds of types.
 
-## Language Choice
+## 3. Language Choice
 
 Prolog is a natural first choice, as it already distinguishes between variables like X and atoms like x, by using upper-case and lower-case respectively. Some drawbacks include the fact that getting X to print as X consistently is difficult as the run-time controls variables. Furthermore, constraint programming requires programming hooks, with difficulty on the order of reflective programming. The strong native support for some convenient features comes at the price of higher cost of other features, which unfortunately are all but required for this project. By porting to JavaScript, we give up some convenient Prolog native support (auto-parsing), and gain other convenient JavaScript native support (manual-parsing).
 
-## Solution Set
+## 4. Solution Set
 
 Constraint semantics seems to more explicitly manifest the problem of unexpected solutions than generic semantics does. Consider X = 2 * X . We may try to divide by X yielding 1=2, and think that there are no solutions. However, our manipulation seems to have lost a solution. Instead we may try to subtract X from both sides yielding 0=X. Now we have 1 solution. Many would conclude that we found all the solutions. Let's try for more. Start by reciprocating both sides 1/X=1/(2\*X). Pull out the constant factor on the right 1/X=1/2\*1/X. Subtract 1/2\*1/X from both sides. 1/2\*1/X=0. Multiply both sides by 2. 1/X=0. We get X=1/0 as a solution. You may interpret this as satisfying the original constraint by saying that ∞=2∞. Others may say 1/0 is undefined. However, this is circular. √-1 is undefined if you exclude it. The same is true for fractional numbers, negative numbers, and even 0. With generic semantics, simplifying an expression (that does not include an equal sign) we may get √-1 in a less indirect manner (such as simplifying √(0-1) or similar). With expression simplification, it seems that every time that we get an expression that we cannot simplify into one of our other elementary forms, then we now explicitly have a new elementary form on our hands. E.G. 2/3, √2, √-1, 1/0, etc. However, with constraint semantics when we get an answer with a manipulation, there does not appear to be any clear stopping criteria that we should not look for more solutions.
 
@@ -104,7 +104,7 @@ Let's consider 2 examples in which thinking that we know enough to fix the hypot
 
 This being the case it seems that the best we can do is merely return popular solutions, not all of them. In the alternative, instead of returning the solution set, we may return the simplified version of the constraint. Maybe if the input is X^2=1-1 then we return X^2=0 (a simpler constraint) not a solution set like {0} or {0,ε}.
 
-## Objects
+## 5. Objects
 
 When we see a letter like x we are somehow conditioned to think of a variable. However, sometimes letters refer to constants, like a name.
 
@@ -148,7 +148,7 @@ Similarly, if h is a line-segment then h/h=1. It does not matter what value if a
 
 Consider f(x)=x^2. We write the difference quotient (f(x+h)-f(x))/h = ((x+h)^2-x^2)/h = (x^2+2xh+h^2-x^2)/h = (2xh+h^2)/h . The concern is that if h is 0, then we cannot take the next step 2x+h. However, h need not be 0. h can be a line-segment. If h is a line-segment we can self divide it and get 1. We can get (2xh+h^2)/h = 2x+h . This is true independent of any fact about any property of h; this is independent of the weight, length, or cost of h. Length((f(x+h)-f(x))/h) = Length((2xh+h^2)/h) = Length(2x+h) = Length(2x) + Length(h) = Length(2x) = 2 * Length(x) .
 
-## 0\*X=0
+## 6. 0\*X=0
 
 0\*X=0 is a rather special constraint. This is a rule that works for any X. Therefore Prolog responds with X=\_672 (or similar). The \_672 is Prolog's way of creating a new variable, and it names that variable with a random number.
 
@@ -156,7 +156,7 @@ If we entered 0\*X=0,0\*Y=0 then Prolog would respond like X=\_672,Y=\_673 (or s
 
 In mathematics, when we get 0/0 we say it is indeterminate. In computer science, with the IEEE-754 standard for floating point arithmetic, when we get 0/0 we would get NaN. If we check NaN==NaN we get false. IEEE-754, Prolog, and Linear Algebra are all telling us the same thing. Prolog and Linear Algebra are telling us clearly. IEEE-754 is telling us with a number that has strange properties. What they are all telling us is that 0/0 creates a new variable.
 
-## Constraint Satisfaction vs. Constraint Simplification
+## 7. Constraint Satisfaction vs. Constraint Simplification
 
 One approach to the problem of constraints is constraint solving (i.e. constraint satisfaction). For constraint solving, given a constraint like X\*X=-1, we get a solution set {} (i.e. the empty set) if the allowable solutions are real numbers. However, we get a solution set {i,-i} if the allowable solutions are complex numbers. For other allowable solutions, we may get another solution set. Constraint solving is underconstrained without at least implicitly specifying allowable solutions. This is an issue that we wish to avoid.
 
@@ -172,7 +172,7 @@ We will consider Constraint Satisfaction with domain dependency. What if we are 
 
 Users are likely to input expressions such as X \* 0 = 0 (or X \* X = X) without ever specifying a domain. In this case, the problem is underspecified. What can be done? One solution is rewriting the expression as the user types in the input (as seen in modern Computer Algebra Systems like Maple & Mathematica) and/or querying the user for ambiguous input such as Maple. These user-interface issues are not best addressed in a command-line language like Prolog, but are easy to address in a Visual User Interface language like JavaScript. Another solution is an interactive Symbol Table.
 
-## Relations
+## 8. Relations
 
 ### =
 
@@ -301,7 +301,7 @@ In conclusion, much of this entire work has been about avoiding unnecessary new 
 
 However, this idea of irreducible expressions is not without its drawbacks. These irreducible expressions appear to be irreducible constraints. It may be the case that irreducible constraints do not fully specify a solution. For example, r( x , x\*x ,  , -1 ) may not fully specify i; it may also specify -i. If obliterating the distinction (between i and -i) is good, then this approach is good; otherwise, it's not good. We may also note that r( x , x\*x ,  , -1 ) might also specify the quaternion j which is distinct from the quaternion i. It may be that irreducible constraints are not sufficient for our purposes (which is specifying everything that we ought to specify).
 
-## Quantifiers
+## 9. Quantifiers
 
 In solving m \* h = h , we noted ambiguity. One attempt to disambiguate was by labeling m as a variable, and h as a generic. Solving (for the only variable in the equation) we got m=1 .
 
@@ -315,7 +315,7 @@ We will write m | ∀h m \* h = h. This means that we want to find an m such tha
 
 It seems that we are able to disambiguate ambiguous expressions like m \* h = h , with quantifiers. 
 
-## Fundamental Theorem of Algebra
+## 10. Fundamental Theorem of Algebra
 
 The Fundamental Theorem of Algebra states that polynomial factorization is unique, and the number of roots (or equivalently factors) is the degree of the polynomial, and if the roots are r₁,r₂,…,rₙ then the factors are (x-r₁),(x-r₂),…,(x-rₙ), so the polynomial equals (x-r₁)\*(x-r₂)\*…\*(x-rₙ).
 
