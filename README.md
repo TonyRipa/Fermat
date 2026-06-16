@@ -3,7 +3,7 @@
 
 Author:	Anthony John Ripa
 
-Date:	2026.05.15
+Date:	2026.06.15
 
 Live Demo at <a target='_blank' href='http://tonyripa.github.io/Fermat/'>http://tonyripa.github.io/Fermat/</a>
 
@@ -27,13 +27,13 @@ Alternatively, we may think of it as a hierarchy. Numbers are at the base of thi
 
 ## 2. Key Concepts
 
-### Generics
+### 2.1 Generics
 
 Later we discuss different kinds of object arithmetic. We could have an event-object x. While Prob(x) may be 0, x is not 0. So, x/x=1 without risking division by 0. Similarly, we could have a line-segment object x. While length(x) may be 0, x is not 0. Again, x/x=1 without risking division by 0.
 
 Generics can be thought of as non-specific objects. We could have a generic object (or generic for short) x. While some valuation function of x [e.g. f(x)] could be 0, x is not 0. So, x/x=1 without risking division by 0.
 
-### Constraints vs. Generics
+### 2.2 Constraints vs. Generics
 
 We return to x/x. For generics we think we can safely replace x/x with 1. Constraint semantics suggest that this may be a suboptimal rule because changing X=2X to 1=2 loses the solution X=0. Splintering the semantics suggests x/x=1 but X/X=(X=0)?%:1. Those whose thinking is dominated by constraint semantics may think X/X=(x=0)?%:1 , and not be comfortable with the apparently less cautious alternate domain where x/x=1. However, it seems that the constraint semantics is actually not so cautious. Consider X=2X. Constraint semantics disallows dividing both sides by X. This belief is justified by 2 reasons: 1) is that X/X has a hole in it at X=0 2) We know that X=2X simplified to 1=2 loses a solution (namely X=0). Taken together constraint semantics seems to be cautious. However constraint semantics is typically permissive with the replacement of X-X with 0. This is not cautious. Consider X=2X. Subtract X from both sides. 0=X. This may look fine. However we lost a solution. X=1/0 satisfies X=2X, but not 0=X. We lost the solution X=1/0. A typical constraint semanticist may think this is fine because 1/0 is not real. However this reasoning is circular. I.E. everything that you choose to exclude is undefined by definition. This does not justify the exclusion. Experience (for centuries or millennia) also cannot justify the exclusion as we saw earlier with Platonic Solids and/or Differential Equations. Furthermore, for solutions of the form a/b (where a & b are integers) if I reciprocate the problem then give it to the solver, then reciprocate the answer, then I should get the right answer. Basically flipping the projective real line upside down should not change the answer. Typical constraint semantics is insufficiently cautious to guarantee this. This is because they allow X-X to be replaced with 0. What should now be clear is that replacing X/X with 1 is as safe as replacing X-X with 0. Either both are safe, or neither. It seems neither.
 
@@ -41,7 +41,7 @@ For generic semantics is seemed that x/x=1. This may have taken some convincing 
 
 In conclusion, x/x=1 is as true as x-x=0. Also X/X=1 is as true as X-X=0. Objections that emerge from considerations of real numbers are special cases (much like the theorems in real-analysis when compared with complex-analysis). Intuitions about what x/x should be given what X/X should be, when only thinking about reals, are unreliable domain specific intuitions that are half oversafe and half undersafe. Traditional methods have a trade-off profile that has been largely overlooked, likely because it was not fully explored. Fully understanding that trade-off can inform the practitioner as to what approach is more desirable and when. An alternate approach is splitting into 2 semantics: 1) Generic semantics where x/x=1 and x-x=0 can guarantee safety 2) Constraint semantics where neither X/X=1 nor X-X=0 can guarantee safety. If problems can be well-modularized into the different semantics, then it would appear that it may be a good choice to apply the appropriate semantics in the appropriate place, instead of trying a one-size-fits-all, especially when it becomes clear that the one-size-fits-all is not so good a fit.
 
-### Variables as Wires
+### 2.3 Variables as Wires
 
 Variables appear to be a natural response to a resource poor language. We may ask: what is 2+3. The answer may be 5. What if I know the sum is 5, and the augend is 2, and I want to know the addend (and I lack the words sum, augend, and addend)? I could modify the language with a new operator – and ask: what is 5-2. This can and did happen. The general problem of resource poor languages also created the variable, so that one could solve innumerable ad hoc problems without bloating the language. Just add a templating scheme to a resource poor language. Instead of relying on the invention of the – operator, I can just ask: what is x such that 2+x=5. Since 2+3=5 exists and is true in the resource poor language, I was able to use meta symbols like x to express what I could not in the base language.
 
@@ -74,7 +74,7 @@ Other approaches to avoiding variables, note that language’s linear-encoding i
 
 At this point it should be clear, from Combinator Calculus alone, that variables are not needed. If used, though not needed, variables should be used with care, because they are extremely easy to confuse with symbols in the base language. It is advisable to get a good handle on the base language, before ever introducing a templating scheme.
 
-### Reference
+### 2.4 Reference
 
 Another possible characterization of variables vs generics, is variables vs references. 
 
@@ -86,7 +86,7 @@ Fine’s approach shifts the question from questions about the nature of variabl
 
 If Fine’s distinction is relevant, then what we desire is not a proper calculus for the domain objects (variable or otherwise) but a proper calculus of references (a pointer arithmetic).
 
-### Dependency
+### 2.5 Dependency
 
 Constraints vs. Generics model 2 types. We may imagine multiple types based on dependencies. For example, we can have a dependency chain, y=x, where y is Any, and x is Real (or vice-versa). Alternatively, we can have a dependency chain, y=x, where y is Any, and x lacks dependence. In the latter case, x is like a generic. We might imagine all kinds of dependency chains, trees, loops, etc. which might otherwise be interpreted as many different kinds of types.
 
